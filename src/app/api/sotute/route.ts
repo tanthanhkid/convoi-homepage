@@ -31,23 +31,15 @@ async function fetchSotuteData(): Promise<SotuteProject[]> {
         console.log(`✅ Background job: Đã cache ${projects.length} dự án từ sotute.com`);
         return projects;
       } else {
-        console.warn('⚠️ Background job: Không parse được dữ liệu, giữ nguyên cache cũ');
-        return cachedProjects;
+        console.warn('⚠️ Background job: Không parse được dữ liệu từ sotute.com');
+        throw new Error('Không parse được dữ liệu từ sotute.com');
       }
     } else {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
   } catch (error) {
     console.error('❌ Background job error:', error);
-    
-    // Nếu chưa có cache hoặc cache quá cũ, sử dụng mock data
-    if (cachedProjects.length === 0 || (Date.now() - lastFetch) > (24 * 60 * 60 * 1000)) {
-      console.log('📋 Background job: Sử dụng mock data');
-      cachedProjects = getMockData();
-      lastFetch = Date.now();
-    }
-    
-    return cachedProjects;
+    throw error; // Không fallback về mock data
   }
 }
 
@@ -383,7 +375,29 @@ export async function GET(request: Request) {
     
     if (cachedProjects.length === 0 || (forceRefresh && isCacheExpired)) {
       console.log('🔄 API: Force refresh dữ liệu sotute...');
-      await fetchSotuteData();
+      try {
+        await fetchSotuteData();
+      } catch (error) {
+        console.error('❌ API: Không thể fetch dữ liệu từ sotute.com:', error);
+        return NextResponse.json({
+          success: false,
+          error: 'Không thể kết nối tới sotute.com để lấy dữ liệu dự án',
+          message: 'Vui lòng thử lại sau hoặc liên hệ admin',
+          data: [],
+          total: 0,
+        }, { status: 503 });
+      }
+    }
+    
+    // Nếu vẫn không có dữ liệu cache
+    if (cachedProjects.length === 0) {
+      return NextResponse.json({
+        success: false,
+        error: 'Chưa có dữ liệu dự án',
+        message: 'Hệ thống đang cập nhật dữ liệu, vui lòng thử lại sau',
+        data: [],
+        total: 0,
+      }, { status: 503 });
     }
     
     let projects = cachedProjects;
@@ -414,10 +428,10 @@ export async function GET(request: Request) {
     
     return NextResponse.json({
       success: false,
-      error: 'Không thể lấy dữ liệu dự án',
-      data: cachedProjects.length > 0 ? cachedProjects : getMockData(),
-      total: cachedProjects.length > 0 ? cachedProjects.length : getMockData().length,
-      cached_at: new Date(lastFetch).toISOString(),
+      error: 'Lỗi hệ thống khi lấy dữ liệu dự án',
+      message: 'Vui lòng thử lại sau',
+      data: [],
+      total: 0,
     }, { status: 500 });
   }
 }

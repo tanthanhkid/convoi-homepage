@@ -185,26 +185,22 @@ export default function Home() {
 function ProjectsSection() {
   const { projects, loading, error } = useSotuteData();
 
-  const activeProjects = projects.filter(p => p.status === 'active');
-  const pendingProjects = projects.filter(p => p.status === 'pending');
-  const completedProjects = projects.filter(p => p.status === 'completed');
-
   if (loading) {
     return (
       <section className="section-padding bg-gray-50">
         <div className="container-padding">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Các dự án đang triển khai
+              Tình trạng các dự án thực tế
             </h2>
             <p className="text-xl text-gray-600">
-              Theo dõi tiến độ các dự án xây dựng nhà vệ sinh sạch
+              Dữ liệu trực tiếp từ nền tảng SOTUTE
             </p>
           </div>
           
           {/* Loading skeleton */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
                 <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
                 <div className="h-4 bg-gray-200 rounded mb-2"></div>
@@ -229,10 +225,10 @@ function ProjectsSection() {
           <div className="text-center">
             <div className="text-6xl mb-4">⚠️</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Không thể tải dữ liệu dự án
+              Không thể kết nối tới SOTUTE
             </h3>
             <p className="text-gray-600 mb-6">
-              Đang có lỗi kết nối. Vui lòng thử lại sau.
+              Hệ thống đang gặp sự cố kết nối. Vui lòng thử lại sau.
             </p>
             <button 
               onClick={() => window.location.reload()}
@@ -246,15 +242,43 @@ function ProjectsSection() {
     );
   }
 
+  if (projects.length === 0) {
+    return (
+      <section className="section-padding bg-gray-50">
+        <div className="container-padding">
+          <div className="text-center">
+            <div className="text-6xl mb-4">📋</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Chưa có dữ liệu dự án
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Hệ thống đang cập nhật dữ liệu từ SOTUTE, vui lòng thử lại sau.
+            </p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+            >
+              Tải lại
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const activeProjects = projects.filter(p => p.status === 'active');
+  const pendingProjects = projects.filter(p => p.status === 'pending');
+  const completedProjects = projects.filter(p => p.status === 'completed');
+
   return (
     <section className="section-padding bg-gray-50">
       <div className="container-padding">
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Các dự án đang triển khai
+            Tình trạng các dự án thực tế
           </h2>
           <p className="text-xl text-gray-600 mb-6">
-            Theo dõi tiến độ các dự án xây dựng nhà vệ sinh sạch
+            Dữ liệu trực tiếp từ nền tảng SOTUTE
           </p>
           
           {/* Summary stats */}
@@ -274,93 +298,12 @@ function ProjectsSection() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Cột 1: Đang thực hiện */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center gap-2 bg-green-100 px-4 py-2 rounded-full">
-                <span className="text-green-600">🚀</span>
-                <h3 className="font-bold text-green-800">Đang thực hiện</h3>
-                <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">
-                  {activeProjects.length} dự án
-                </span>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              {activeProjects.length > 0 ? (
-                activeProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))
-              ) : (
-                <div className="text-center py-12 bg-white rounded-xl border-2 border-dashed border-gray-200">
-                  <div className="text-4xl mb-4">🏗️</div>
-                  <p className="text-gray-500">Chưa có dự án đang thực hiện</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Cột 2: Đang vận động kinh phí */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center gap-2 bg-orange-100 px-4 py-2 rounded-full">
-                <span className="text-orange-600">💝</span>
-                <h3 className="font-bold text-orange-800">Đang vận động kinh phí</h3>
-                <span className="bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
-                  {pendingProjects.length} dự án
-                </span>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              {pendingProjects.length > 0 ? (
-                pendingProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))
-              ) : (
-                <div className="text-center py-12 bg-white rounded-xl border-2 border-dashed border-gray-200">
-                  <div className="text-4xl mb-4">💰</div>
-                  <p className="text-gray-500">Chưa có dự án cần vận động kinh phí</p>
-                </div>
-              )}
-            </div>
-          </div>
+        {/* Hiển thị tất cả dự án dạng grid cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
-
-        {/* Hiển thị dự án đã hoàn thành ở dưới */}
-        {completedProjects.length > 0 && (
-          <div className="mt-16">
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full">
-                <span className="text-blue-600">✅</span>
-                <h3 className="font-bold text-blue-800">Dự án đã hoàn thành</h3>
-                <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
-                  {completedProjects.length} dự án
-                </span>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {completedProjects.slice(0, 6).map((project) => (
-                <ProjectCard key={project.id} project={project} showDonateButton={false} />
-              ))}
-            </div>
-            
-            {completedProjects.length > 6 && (
-              <div className="text-center mt-8">
-                <LoadingLink 
-                  href="/du-an/da-hoan-thanh" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-                >
-                  <span>👀</span>
-                  <span>Xem tất cả dự án đã hoàn thành</span>
-                  <span>({completedProjects.length})</span>
-                </LoadingLink>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Call to action */}
         <div className="mt-16 text-center">
