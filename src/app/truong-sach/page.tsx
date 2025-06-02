@@ -4,8 +4,20 @@ import { useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLink from '../components/LoadingLink';
+import ProjectCard from '../components/ProjectCard';
+import { useSotuteData } from '../hooks/useSotuteData';
 
 export default function TruongSach() {
+  const { 
+    activeProjects, 
+    pendingProjects, 
+    completedProjects,
+    loading, 
+    error, 
+    refreshData, 
+    lastUpdated 
+  } = useSotuteData();
+
   useEffect(() => {
     // Load GetFly form script
     const loadGetFlyForm = () => {
@@ -121,16 +133,51 @@ export default function TruongSach() {
           </div>
         </section>
 
-        {/* Project Status Section */}
+        {/* Project Status Section - Dữ liệu thực từ SOTUTE */}
         <section className="section-padding bg-gray-50">
           <div className="container-padding">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
-                Tình trạng các dự án
+                Tình trạng các dự án thực tế
               </h2>
-              <p className="text-xl text-gray-600">
-                Theo dõi tiến độ thực hiện chương trình Trường Sạch
+              <p className="text-xl text-gray-600 mb-4">
+                Dữ liệu trực tiếp từ nền tảng SOTUTE
               </p>
+              
+              {/* Status và Last Updated */}
+              <div className="flex justify-center items-center gap-4 mb-8">
+                {loading && (
+                  <div className="flex items-center gap-2 text-green-600">
+                    <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm">Đang cập nhật dữ liệu...</span>
+                  </div>
+                )}
+                
+                {lastUpdated && !loading && (
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm">
+                      Cập nhật lúc: {lastUpdated.toLocaleTimeString('vi-VN')}
+                    </span>
+                  </div>
+                )}
+                
+                <button
+                  onClick={refreshData}
+                  disabled={loading}
+                  className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white text-sm px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none"
+                >
+                  🔄 Làm mới
+                </button>
+              </div>
+              
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-8 max-w-md mx-auto">
+                  <p className="text-sm">⚠️ {error}</p>
+                </div>
+              )}
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
@@ -144,76 +191,93 @@ export default function TruongSach() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900">Đang thực hiện</h3>
-                    <p className="text-green-600 font-medium">28 dự án đang lắp đặt</p>
+                    <p className="text-green-600 font-medium">{activeProjects.length} dự án đang lắp đặt</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
-                  {[
-                    { name: 'THPT Nguyễn Trãi', location: 'Hà Nội', progress: '85%' },
-                    { name: 'THCS Lê Quý Đôn', location: 'TP.HCM', progress: '70%' },
-                    { name: 'THPT Yên Bái', location: 'Yên Bái', progress: '60%' },
-                  ].map((school, index) => (
-                    <div key={index} className="border-l-4 border-green-500 pl-4 py-2">
-                      <p className="font-semibold text-gray-900">{school.name}</p>
-                      <p className="text-sm text-gray-600">{school.location}</p>
-                      <div className="mt-2">
-                        <div className="bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-green-500 h-2 rounded-full" 
-                            style={{width: school.progress}}
-                          ></div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">Tiến độ: {school.progress}</p>
-                      </div>
+                  {loading ? (
+                    <div className="text-center py-8">
+                      <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                      <p className="text-gray-600">Đang tải dữ liệu...</p>
                     </div>
-                  ))}
+                  ) : activeProjects.length > 0 ? (
+                    activeProjects.slice(0, 3).map((project) => (
+                      <ProjectCard key={project.id} project={project} showDonateButton={false} />
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <p>Hiện tại không có dự án nào đang thực hiện</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Đang vận động kinh phí */}
               <div className="card">
                 <div className="flex items-center mb-6">
-                  <div className="bg-green-100 p-3 rounded-lg mr-4">
-                    <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-orange-100 p-3 rounded-lg mr-4">
+                    <svg className="h-8 w-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900">Đang vận động kinh phí</h3>
-                    <p className="text-green-600 font-medium">67 dự án cần hỗ trợ</p>
+                    <p className="text-orange-600 font-medium">{pendingProjects.length} dự án cần hỗ trợ</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
-                  {[
-                    { name: 'THPT Sơn La', location: 'Sơn La', needed: '120 triệu', raised: '45%' },
-                    { name: 'THCS Điện Biên', location: 'Điện Biên', needed: '95 triệu', raised: '30%' },
-                    { name: 'THPT Mù Cang Chải', location: 'Yên Bái', needed: '78 triệu', raised: '30%' },
-                  ].map((school, index) => (
-                    <div key={index} className="border-l-4 border-green-500 pl-4 py-2">
-                      <p className="font-semibold text-gray-900">{school.name}</p>
-                      <p className="text-sm text-gray-600">{school.location} • Cần: {school.needed}</p>
-                      <div className="mt-2">
-                        <div className="bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-green-500 h-2 rounded-full" 
-                            style={{width: school.raised}}
-                          ></div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">Đã quyên góp: {school.raised}</p>
-                      </div>
+                  {loading ? (
+                    <div className="text-center py-8">
+                      <div className="w-8 h-8 border-2 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                      <p className="text-gray-600">Đang tải dữ liệu...</p>
                     </div>
-                  ))}
+                  ) : pendingProjects.length > 0 ? (
+                    pendingProjects.slice(0, 3).map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <p>Hiện tại không có dự án nào đang vận động kinh phí</p>
+                    </div>
+                  )}
                 </div>
                 
-                <div className="mt-6 pt-6 border-t">
-                  <LoadingLink href="/lien-he" className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block">
-                    Liên hệ hỗ trợ
-                  </LoadingLink>
-                </div>
+                {pendingProjects.length > 0 && (
+                  <div className="mt-6 pt-6 border-t">
+                    <a 
+                      href="https://sotute.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block"
+                    >
+                      Xem tất cả trên SOTUTE
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
+
+            {/* Dự án đã hoàn thành */}
+            {completedProjects.length > 0 && (
+              <div className="mt-12">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Dự án đã hoàn thành
+                  </h3>
+                  <p className="text-gray-600">
+                    {completedProjects.length} dự án đã thành công cải thiện môi trường học tập
+                  </p>
+                </div>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {completedProjects.slice(0, 6).map((project) => (
+                    <ProjectCard key={project.id} project={project} showDonateButton={false} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </main>
