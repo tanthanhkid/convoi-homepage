@@ -110,12 +110,12 @@ export default function TruongSach() {
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900">
                 Chương trình <span className="text-green-700">TRƯỜNG SẠCH</span>
               </h1>
-              <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
+              {/* <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
                 "Tôi muốn có nhà vệ sinh sạch để học sinh sử dụng khi đến trường"
               </p>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường
-              </p>
+              </p> */}
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12 items-start">
