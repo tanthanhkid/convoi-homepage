@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useLoading } from './LoadingProvider';
+import { usePathname } from 'next/navigation';
 import { ReactNode, MouseEvent } from 'react';
 
 interface LoadingLinkProps {
@@ -13,10 +14,11 @@ interface LoadingLinkProps {
 
 export default function LoadingLink({ href, children, className, onClick }: LoadingLinkProps) {
   const { startLoading } = useLoading();
+  const pathname = usePathname();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    // Only trigger loading for internal navigation
-    if (href.startsWith('/') || href.startsWith('#')) {
+    // Only trigger loading for internal navigation and if navigating to different page
+    if ((href.startsWith('/') || href.startsWith('#')) && href !== pathname) {
       startLoading();
     }
     

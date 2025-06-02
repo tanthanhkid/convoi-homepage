@@ -57,38 +57,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Banner Section 1 - Chương trình TRƯỜNG SẠCH */}
-      <section className="section-padding bg-gradient-to-br from-green-50 to-green-100">
-        <div className="container-padding">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                Chương trình TRƯỜNG SẠCH
-              </h2>
-              <p className="text-lg text-gray-700 mb-8">
-                Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường. 
-                Chúng tôi cam kết mang đến môi trường học tập an toàn và vệ sinh cho tất cả học sinh Việt Nam.
-              </p>
-              <LoadingLink href="/truong-sach" className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
-                Tìm hiểu thêm
-              </LoadingLink>
-            </div>
-            <div className="relative">
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="aspect-video bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="mx-auto h-16 w-16 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-2 0H7m12 0v-2a2 2 0 00-2-2H9a2 2 0 00-2 2v2m0 0H5" />
-                    </svg>
-                    <p className="text-green-700 font-semibold">Trường học sạch sẽ</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+ 
 
       {/* Banner Section 2 - Happy Market */}
       <section className="section-padding bg-gradient-to-br from-yellow-50 to-orange-50">
