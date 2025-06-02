@@ -6,11 +6,15 @@ import LoadingProvider from "./components/LoadingProvider";
 const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: 'swap',
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -35,6 +39,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="shortcut icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="preload" href="/logo.png" as="image" type="image/png" />
       </head>
       <body
         className={`${geist.variable} ${geistMono.variable} antialiased font-sans`}

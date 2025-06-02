@@ -26,6 +26,7 @@ interface LoadingProviderProps {
 
 export default function LoadingProvider({ children }: LoadingProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const pathname = usePathname();
 
   const setLoading = (loading: boolean) => {
@@ -33,22 +34,29 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
   };
 
   const startLoading = () => {
+    setIsNavigating(true);
     setIsLoading(true);
   };
 
   const stopLoading = () => {
     setIsLoading(false);
+    setIsNavigating(false);
   };
 
-  // Auto handle route changes
+  // Auto handle route changes với thời gian tối ưu
   useEffect(() => {
-    startLoading();
-    const timer = setTimeout(() => {
-      stopLoading();
-    }, 300); // Minimum loading time for smooth UX
+    // Chỉ hiện loading nếu đang navigate
+    if (isNavigating) {
+      const timer = setTimeout(() => {
+        stopLoading();
+      }, 100); // Giảm từ 300ms xuống 100ms cho trải nghiệm nhanh hơn
 
-    return () => clearTimeout(timer);
-  }, [pathname]);
+      return () => clearTimeout(timer);
+    } else {
+      // Tự động dừng loading khi route đã thay đổi
+      stopLoading();
+    }
+  }, [pathname, isNavigating]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading, startLoading, stopLoading }}>
@@ -58,37 +66,26 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
   );
 }
 
-// Loading Screen Component
+// Loading Screen Component - tối ưu hóa
 function LoadingScreen() {
   return (
-    <div className="fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm z-[9999] flex items-center justify-center">
+    <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9999] flex items-center justify-center">
       <div className="text-center">
-        {/* Logo Animation */}
-        <div className="mb-8">
-          <div className="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center animate-pulse">
-            <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {/* Logo đơn giản hơn */}
+        <div className="mb-6">
+          <div className="w-16 h-16 mx-auto bg-green-600 rounded-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
           </div>
         </div>
 
-        {/* Loading Text */}
-        <h3 className="text-xl font-semibold text-green-700 mb-4">Convoi</h3>
-        <p className="text-green-600 mb-6">Đang tải trang...</p>
-
-        {/* Loading Spinner */}
+        {/* Text đơn giản */}
+        <h3 className="text-lg font-semibold text-green-700 mb-2">Convoi</h3>
+        
+        {/* Spinner đơn giản và nhanh */}
         <div className="flex justify-center">
-          <div className="relative w-16 h-16">
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-green-200 rounded-full"></div>
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-transparent border-t-green-600 rounded-full animate-spin"></div>
-          </div>
-        </div>
-
-        {/* Progress Dots */}
-        <div className="flex justify-center space-x-2 mt-6">
-          <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-          <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-          <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          <div className="w-8 h-8 border-2 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
         </div>
       </div>
     </div>
