@@ -133,19 +133,18 @@ export default function Home() {
         <div className="container-padding">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-              Thành tựu của chúng tôi
+              Mục tiêu của chúng tôi
             </h2>
             <p className="text-xl text-green-100">
               Những con số ấn tượng về chương trình TRƯỜNG SẠCH
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { number: '150+', label: 'Trường học tham gia', icon: '🏫' },
-              { number: '50,000+', label: 'Học sinh được hỗ trợ', icon: '👨‍🎓' },
-              { number: '200+', label: 'Nhà vệ sinh được cải tạo', icon: '🚽' },
-              { number: '5,000+', label: 'Người quyên góp', icon: '❤️' },
+              { number: '10,000+', label: 'Trường học tham gia', icon: '🏫' },
+              { number: '6,000,000+', label: 'Học sinh được hỗ trợ', icon: '👨‍🎓' },
+              { number: '10,000+', label: 'Nhà vệ sinh được cải tạo', icon: '🚽' }, 
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-4xl mb-4">{stat.icon}</div>

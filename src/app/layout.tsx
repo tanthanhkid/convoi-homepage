@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   description: "Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường",
   keywords: "Convoi, Trường Sạch, nhà vệ sinh, giáo dục, CSR, BRT-3",
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
 };
 
@@ -36,10 +36,10 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <head>
-        <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="shortcut icon" href="/logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
-        <link rel="preload" href="/logo.png" as="image" type="image/png" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="preload" href="/favicon.png" as="image" type="image/png" />
       </head>
       <body
         className={`${geist.variable} ${geistMono.variable} antialiased font-sans`}
