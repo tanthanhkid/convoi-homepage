@@ -29,24 +29,29 @@ function extractMetadataFromHTML(content: string, filename: string) {
 function extractBodyContent(htmlContent: string): string {
   // Try to extract content between <body> tags
   const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+  let content: string;
+  
   if (bodyMatch) {
-    return bodyMatch[1].trim();
+    content = bodyMatch[1].trim();
+  } else {
+    // If no body tags found, check if it's already just content
+    const hasHtmlStructure = htmlContent.includes('<!DOCTYPE') || htmlContent.includes('<html');
+    if (!hasHtmlStructure) {
+      content = htmlContent; // It's already just content
+    } else {
+      // Fallback: return content after </head> and before </body> or </html>
+      const headEndMatch = htmlContent.match(/<\/head>\s*([\s\S]*?)(?:<\/body>|<\/html>)/i);
+      if (headEndMatch) {
+        content = headEndMatch[1].trim();
+      } else {
+        // Last resort: return the original content
+        content = htmlContent;
+      }
+    }
   }
   
-  // If no body tags found, check if it's already just content
-  const hasHtmlStructure = htmlContent.includes('<!DOCTYPE') || htmlContent.includes('<html');
-  if (!hasHtmlStructure) {
-    return htmlContent; // It's already just content
-  }
-  
-  // Fallback: return content after </head> and before </body> or </html>
-  const headEndMatch = htmlContent.match(/<\/head>\s*([\s\S]*?)(?:<\/body>|<\/html>)/i);
-  if (headEndMatch) {
-    return headEndMatch[1].trim();
-  }
-  
-  // Last resort: return the original content
-  return htmlContent;
+  // Normalize line endings to prevent hydration mismatch
+  return content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 }
 
 export async function GET(

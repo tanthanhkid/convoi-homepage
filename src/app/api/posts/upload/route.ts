@@ -7,8 +7,11 @@ import html from 'remark-html';
 
 // Function to extract metadata from HTML
 function extractMetadataFromHTML(content: string, filename: string) {
-  const titleMatch = content.match(/<title[^>]*>([^<]+)<\/title>/i);
-  const descriptionMatch = content.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);
+  // Normalize line endings first
+  const normalizedContent = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  
+  const titleMatch = normalizedContent.match(/<title[^>]*>([^<]+)<\/title>/i);
+  const descriptionMatch = normalizedContent.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);
   
   const title = titleMatch ? titleMatch[1].trim() : filename.replace(/\.html$/, '');
   const description = descriptionMatch ? descriptionMatch[1].trim() : '';
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest) {
       const filePath = join(postsDir, fileName);
       
       // Lưu file HTML trực tiếp
-      await writeFile(filePath, content);
+      await writeFile(filePath, content.replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
     } else {
       // Xử lý file Markdown - chuyển sang HTML và lưu
       const { data, content: markdownContent } = matter(content);
@@ -124,7 +127,7 @@ export async function POST(request: NextRequest) {
       const filePath = join(postsDir, fileName);
       
       // Lưu file HTML
-      await writeFile(filePath, fullHTML);
+      await writeFile(filePath, fullHTML.replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
     }
 
     return NextResponse.json({ 
