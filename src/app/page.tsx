@@ -203,7 +203,7 @@ function ProjectsSection() {
           {/* Loading skeleton */}
           <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="masonry-item">
+              <div key={`loading_skeleton_${i}`} className="masonry-item">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
                   <div className="h-12 bg-gray-200"></div>
                   <div className="h-48 bg-gray-200"></div>
@@ -308,8 +308,8 @@ function ProjectsSection() {
 
         {/* Masonry layout - hiển thị tất cả dự án */}
         <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-          {projects.map((project) => (
-            <div key={project.id} className="masonry-item">
+          {projects.map((project, index) => (
+            <div key={`${project.id}_${index}`} className="masonry-item">
               <ProjectCard project={project} />
             </div>
           ))}

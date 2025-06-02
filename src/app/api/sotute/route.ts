@@ -54,16 +54,31 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
       const titleMatches = html.match(/<h4 class="title">[\s\S]*?<a[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/g) || [];
       console.log(`📝 Tìm thấy ${titleMatches.length} titles`);
       
-      for (const titleMatch of titleMatches) {
+      titleMatches.forEach((titleMatch, index) => {
         try {
           const titleExtract = titleMatch.match(/<a[^>]*>([^<]+)<\/a>/);
           const title = titleExtract ? titleExtract[1].trim() : '';
           
-          if (!title) continue;
+          if (!title) return;
           
           const urlMatch = titleMatch.match(/<a href="([^"]*)"[^>]*>/);
           const url = urlMatch ? urlMatch[1].trim() : '';
-          const id = url ? url.split('/').filter(Boolean).pop() || `project_${Date.now()}` : `project_${Date.now()}`;
+          
+          // Tạo ID duy nhất bằng cách kết hợp index, timestamp và title hash
+          let id = '';
+          if (url) {
+            const urlParts = url.split('/').filter(Boolean);
+            id = urlParts.pop() || `project_${index}_${Date.now()}`;
+          } else {
+            // Tạo ID từ title nếu không có URL
+            id = title.toLowerCase()
+              .replace(/[^a-z0-9\s]/g, '')
+              .replace(/\s+/g, '-')
+              .substring(0, 50);
+          }
+          
+          // Đảm bảo ID là duy nhất bằng cách thêm index và timestamp
+          id = `${id}_${index}_${Date.now() % 10000}`;
           
           const imageMatches = html.match(/<img[^>]*src="([^"]*)"[^>]*>/g) || [];
           let image_url = '';
@@ -137,12 +152,13 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
         } catch (error) {
           console.error('❌ Lỗi parse project individual:', error);
         }
-      }
+      });
     }
   } catch (error) {
     console.error('❌ Lỗi parse HTML từ sotute.com:', error);
   }
   
+  console.log(`✅ Parsed ${projects.length} projects với IDs: ${projects.map(p => p.id).join(', ')}`);
   return projects;
 }
 
