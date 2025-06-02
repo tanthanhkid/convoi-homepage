@@ -5,6 +5,29 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
+// Function to extract metadata from HTML
+function extractMetadataFromHTML(content: string, filename: string) {
+  const titleMatch = content.match(/<title[^>]*>([^<]+)<\/title>/i);
+  const descriptionMatch = content.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);
+  
+  const title = titleMatch ? titleMatch[1].trim() : filename.replace(/\.html$/, '');
+  const description = descriptionMatch ? descriptionMatch[1].trim() : '';
+  
+  // Create slug from filename
+  const slug = filename.replace(/\.html$/, '').toLowerCase()
+    .replace(/[^a-z0-9\-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  
+  return {
+    title,
+    description,
+    slug,
+    type: 'html',
+    date: new Date().toISOString()
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -30,28 +53,21 @@ export async function POST(request: NextRequest) {
     const postsDir = join(process.cwd(), 'content', 'posts');
     await mkdir(postsDir, { recursive: true });
 
-    let processedContent = '';
-    let metadata: any = {};
     let slug = '';
+    let metadata: any = {};
 
     if (fileExtension === 'html') {
-      // Xử lý file HTML
-      processedContent = content;
+      // Xử lý file HTML - lưu trực tiếp file HTML
+      metadata = extractMetadataFromHTML(content, file.name);
+      slug = metadata.slug;
       
-      // Tạo slug từ tên file
-      slug = file.name.replace(/\.html$/, '').toLowerCase()
-        .replace(/[^a-z0-9\-]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
-        
-      // Tạo metadata cơ bản
-      metadata = {
-        title: file.name.replace(/\.html$/, ''),
-        date: new Date().toISOString(),
-        type: 'html'
-      };
+      const fileName = `${slug}.html`;
+      const filePath = join(postsDir, fileName);
+      
+      // Lưu file HTML trực tiếp
+      await writeFile(filePath, content);
     } else {
-      // Xử lý file Markdown
+      // Xử lý file Markdown - chuyển sang HTML và lưu
       const { data, content: markdownContent } = matter(content);
       
       // Chuyển đổi Markdown sang HTML
@@ -59,7 +75,8 @@ export async function POST(request: NextRequest) {
         .use(html)
         .process(markdownContent);
       
-      processedContent = processedMarkdown.toString();
+      const htmlContent = processedMarkdown.toString();
+      
       metadata = {
         ...data,
         date: data.date || new Date().toISOString(),
@@ -72,22 +89,43 @@ export async function POST(request: NextRequest) {
         .replace(/[^a-z0-9\-]/g, '-')
         .replace(/-+/g, '-')
         .replace(/^-|-$/g, '');
+
+      // Tạo HTML document hoàn chỉnh từ Markdown
+      const fullHTML = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${metadata.title || 'Không có tiêu đề'}</title>
+    ${metadata.description ? `<meta name="description" content="${metadata.description}">` : ''}
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            color: #333; 
+        }
+        h1, h2, h3, h4, h5, h6 { color: #2d3748; margin-top: 1.5em; }
+        h1 { border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5em; }
+        pre { background: #f7fafc; padding: 1em; border-radius: 4px; overflow-x: auto; }
+        code { background: #edf2f7; padding: 0.2em 0.4em; border-radius: 3px; }
+        blockquote { border-left: 4px solid #cbd5e0; margin: 1em 0; padding-left: 1em; color: #4a5568; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    ${htmlContent}
+</body>
+</html>`;
+
+      const fileName = `${slug}.html`;
+      const filePath = join(postsDir, fileName);
+      
+      // Lưu file HTML
+      await writeFile(filePath, fullHTML);
     }
-
-    // Lưu file JSON chứa metadata và content vào content/posts
-    const postData = {
-      ...metadata,
-      slug,
-      content: processedContent,
-      originalFilename: file.name,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-
-    const fileName = `${slug}.json`;
-    const filePath = join(postsDir, fileName);
-    
-    await writeFile(filePath, JSON.stringify(postData, null, 2));
 
     return NextResponse.json({ 
       message: 'Bài viết đã được tải lên thành công',
@@ -117,19 +155,31 @@ export async function GET() {
       const posts = [];
       
       for (const file of files) {
-        if (file.endsWith('.json')) {
+        if (file.endsWith('.html')) {
           const filePath = join(postsDir, file);
           const content = await readFile(filePath, 'utf-8');
-          const post = JSON.parse(content);
           
-          // Chỉ trả về metadata, không trả về content đầy đủ
+          // Trích xuất metadata từ HTML
+          const metadata = extractMetadataFromHTML(content, file);
+          
+          // Lấy thời gian tạo file (hoặc dùng thời gian hiện tại)
+          const { stat } = require('fs/promises');
+          let createdAt = new Date().toISOString();
+          try {
+            const stats = await stat(filePath);
+            createdAt = stats.birthtime.toISOString();
+          } catch (e) {
+            // Fallback to current time if can't get file stats
+          }
+          
           posts.push({
-            slug: post.slug,
-            title: post.title || 'Không có tiêu đề',
-            date: post.date,
-            type: post.type,
-            createdAt: post.createdAt,
-            updatedAt: post.updatedAt
+            slug: metadata.slug,
+            title: metadata.title,
+            description: metadata.description,
+            date: metadata.date,
+            type: metadata.type,
+            createdAt,
+            updatedAt: createdAt
           });
         }
       }
