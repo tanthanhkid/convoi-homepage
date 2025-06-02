@@ -130,29 +130,11 @@ export default function TruongSach() {
                 </div>
               </div>
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="aspect-video bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="mx-auto h-24 w-24 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    <p className="text-green-700 font-semibold text-lg">Chương trình Trường Sạch</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* GetFly Form Section */}
-        <section className="section-padding">
-          <div className="container-padding">
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
                     Form đăng ký tham gia chương trình
-                  </h2>
-                  <p className="text-gray-600">
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Vui lòng điền đầy đủ thông tin để chúng tôi có thể hỗ trợ bạn tốt nhất
                   </p>
                 </div>
