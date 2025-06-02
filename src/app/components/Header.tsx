@@ -13,11 +13,6 @@ const Header = () => {
     { name: 'Chương trình Trường Sạch', href: '/truong-sach' },
     { name: 'Sản phẩm', href: '/san-pham' },
     { name: 'Happy Market', href: '/happy-market' },
-    { name: 'Quyên góp', href: '/quyen-gop' },
-    { name: 'Đối tác', href: '/doi-tac' },
-    { name: 'Giáo dục', href: '/giao-duc' },
-    { name: 'Clean for All', href: '/clean-for-all' },
-    { name: 'Tin tức', href: '/tin-tuc' },
     { name: 'Liên hệ', href: '/lien-he' },
   ];
 
@@ -42,7 +37,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {navigation.slice(0, 6).map((item) => (
+              {navigation.map((item) => (
                 <LoadingLink
                   key={item.name}
                   href={item.href}
@@ -51,28 +46,6 @@ const Header = () => {
                   {item.name}
                 </LoadingLink>
               ))}
-              {/* Dropdown for more items */}
-              <div className="relative group">
-                <button className="text-gray-700 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
-                  Khác
-                  <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <div className="py-2">
-                    {navigation.slice(6).map((item) => (
-                      <LoadingLink
-                        key={item.name}
-                        href={item.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700"
-                      >
-                        {item.name}
-                      </LoadingLink>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 

@@ -45,11 +45,11 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Liên kết nhanh</h3>
             <ul className="space-y-2">
+              <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">Về Con Voi</Link></li>
               <li><Link href="/truong-sach" className="text-gray-300 hover:text-white transition-colors">Chương trình Trường Sạch</Link></li>
+              <li><Link href="/san-pham" className="text-gray-300 hover:text-white transition-colors">Sản phẩm</Link></li>
               <li><Link href="/happy-market" className="text-gray-300 hover:text-white transition-colors">Happy Market</Link></li>
-              <li><Link href="/quyen-gop" className="text-gray-300 hover:text-white transition-colors">Quyên góp</Link></li>
-              <li><Link href="/doi-tac" className="text-gray-300 hover:text-white transition-colors">Đối tác</Link></li>
-              <li><Link href="/tin-tuc" className="text-gray-300 hover:text-white transition-colors">Tin tức</Link></li>
+              <li><Link href="/lien-he" className="text-gray-300 hover:text-white transition-colors">Liên hệ</Link></li>
             </ul>
           </div>
 
@@ -86,11 +86,11 @@ const Footer = () => {
               © 2024 DOANH NGHIỆP XÃ HỘI CON VOI. Tất cả quyền được bảo lưu.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-gray-300 hover:text-white text-sm transition-colors">
-                Chính sách bảo mật
+              <Link href="/lien-he" className="text-gray-300 hover:text-white text-sm transition-colors">
+                Liên hệ
               </Link>
-              <Link href="/terms" className="text-gray-300 hover:text-white text-sm transition-colors">
-                Điều khoản sử dụng
+              <Link href="/about" className="text-gray-300 hover:text-white text-sm transition-colors">
+                Về chúng tôi
               </Link>
             </div>
           </div>

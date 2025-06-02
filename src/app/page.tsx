@@ -27,8 +27,8 @@ export default function Home() {
                 <LoadingLink href="/truong-sach" className="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center">
                   Đăng ký trường học
                 </LoadingLink>
-                <LoadingLink href="/quyen-gop" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-center">
-                  Quyên góp ngay
+                <LoadingLink href="/lien-he" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-center">
+                  Liên hệ ngay
                 </LoadingLink>
               </div>
             </div>
@@ -165,8 +165,8 @@ export default function Home() {
             <LoadingLink href="/truong-sach" className="bg-white text-green-700 hover:bg-gray-100 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
               Đăng ký trường học
             </LoadingLink>
-            <LoadingLink href="/quyen-gop" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200">
-              Quyên góp hỗ trợ
+            <LoadingLink href="/lien-he" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200">
+              Liên hệ hỗ trợ
             </LoadingLink>
           </div>
         </div>

@@ -264,8 +264,8 @@ export default function TruongSach() {
                 </div>
                 
                 <div className="mt-6 pt-6 border-t">
-                  <LoadingLink href="/quyen-gop" className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block">
-                    Quyên góp hỗ trợ
+                  <LoadingLink href="/lien-he" className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block">
+                    Liên hệ hỗ trợ
                   </LoadingLink>
                 </div>
               </div>
