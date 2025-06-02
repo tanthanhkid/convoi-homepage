@@ -92,22 +92,43 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
   const projects: SotuteProject[] = [];
   
   try {
-    // Tìm tất cả campaign-block
-    const campaignBlockRegex = /<div class="campaign-block">([\s\S]*?)<\/div>\s*<\/div>/g;
+    console.log('🔍 Checking HTML content length:', html.length);
+    console.log('🔍 HTML contains "campaign-block":', html.includes('campaign-block'));
+    
+    // Debug: Log một phần HTML để xem cấu trúc
+    const campaignIndex = html.indexOf('campaign-block');
+    if (campaignIndex > -1) {
+      const sampleHtml = html.substring(campaignIndex - 100, campaignIndex + 500);
+      console.log('🔍 Sample HTML around campaign-block:', sampleHtml);
+    }
+    
+    // Thử regex đơn giản hơn trước
+    const simpleCampaignRegex = /<div class="campaign-block">/g;
+    const simpleMatches = html.match(simpleCampaignRegex);
+    console.log('🔍 Simple campaign-block matches:', simpleMatches?.length || 0);
+    
+    // Tìm tất cả campaign-block với regex cải thiện
+    const campaignBlockRegex = /<div class="campaign-block">([\s\S]*?)(?=<div class="campaign-block"|$)/g;
     let blockMatch;
     let index = 0;
     
-    while ((blockMatch = campaignBlockRegex.exec(html)) !== null) {
+    while ((blockMatch = campaignBlockRegex.exec(html)) !== null && index < 20) {
       try {
         const blockHtml = blockMatch[1];
+        console.log(`🔍 Processing block ${index}, HTML length:`, blockHtml.length);
         
         // Parse title và URL
         const titleMatch = blockHtml.match(/<h4 class="title">[\s\S]*?<a href="([^"]*)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/);
-        if (!titleMatch) continue;
+        if (!titleMatch) {
+          console.log(`❌ Block ${index}: No title match found`);
+          continue;
+        }
         
         const url = titleMatch[1].trim();
         const rawTitle = titleMatch[2].trim();
         const title = decodeHtmlEntities(rawTitle);
+        
+        console.log(`✅ Block ${index}: Found title - ${title}`);
         
         // Parse image URL từ campaign-image
         const imageMatch = blockHtml.match(/<div class="campaign-image">[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>/);
@@ -128,6 +149,8 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
         // Parse days remaining
         const daysMatch = blockHtml.match(/<span class="info-value time-remaining-desc">(\d+)<\/span>/);
         const days_remaining = daysMatch ? parseInt(daysMatch[1]) : 0;
+        
+        console.log(`📊 Block ${index}: Target: ${target_amount}, Raised: ${raised_amount}, Progress: ${progress_percentage}%, Days: ${days_remaining}`);
         
         // Parse categories
         const categoriesMatch = blockHtml.match(/<span class="posted_in">(.*?)<\/span>/);
@@ -185,19 +208,149 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
             days_remaining
           });
           
-          console.log(`✅ Parsed project: ${title} - Target: ${target_amount.toLocaleString()}đ - Raised: ${raised_amount.toLocaleString()}đ - Progress: ${progress_percentage}% - Days: ${days_remaining}`);
+          console.log(`✅ Parsed project ${index}: ${title} - Target: ${target_amount.toLocaleString()}đ - Raised: ${raised_amount.toLocaleString()}đ - Progress: ${progress_percentage}% - Days: ${days_remaining}`);
         }
         
         index++;
       } catch (error) {
-        console.error('❌ Lỗi parse project individual:', error);
+        console.error(`❌ Lỗi parse project ${index}:`, error);
       }
     }
+    
+    // Fallback về regex cũ nếu không parse được gì
+    if (projects.length === 0) {
+      console.log('🔄 Fallback to old parsing logic...');
+      return parseProjectsWithOldLogic(html);
+    }
+    
   } catch (error) {
     console.error('❌ Lỗi parse HTML từ sotute.com:', error);
   }
   
   console.log(`✅ Parsed ${projects.length} projects với IDs: ${projects.map(p => p.id).join(', ')}`);
+  return projects;
+}
+
+// Fallback parsing logic cũ
+function parseProjectsWithOldLogic(html: string): SotuteProject[] {
+  const projects: SotuteProject[] = [];
+  
+  try {
+    if (html.includes('campaign-block')) {
+      console.log('🔍 Fallback: Tìm thấy campaign blocks trong HTML');
+      
+      const titleMatches = html.match(/<h4 class="title">[\s\S]*?<a[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/g) || [];
+      console.log(`📝 Fallback: Tìm thấy ${titleMatches.length} titles`);
+      
+      titleMatches.forEach((titleMatch, index) => {
+        try {
+          const titleExtract = titleMatch.match(/<a[^>]*>([^<]+)<\/a>/);
+          const rawTitle = titleExtract ? titleExtract[1].trim() : '';
+          
+          if (!rawTitle) return;
+          
+          // Decode HTML entities in title
+          const title = decodeHtmlEntities(rawTitle);
+          
+          const urlMatch = titleMatch.match(/<a href="([^"]*)"[^>]*>/);
+          const url = urlMatch ? urlMatch[1].trim() : '';
+          
+          // Tạo ID duy nhất bằng cách kết hợp index, timestamp và title hash
+          let id = '';
+          if (url) {
+            const urlParts = url.split('/').filter(Boolean);
+            id = urlParts.pop() || `project_${index}_${Date.now()}`;
+          } else {
+            // Tạo ID từ title nếu không có URL
+            id = title.toLowerCase()
+              .replace(/[^a-z0-9\s]/g, '')
+              .replace(/\s+/g, '-')
+              .substring(0, 50);
+          }
+          
+          // Đảm bảo ID là duy nhất bằng cách thêm index và timestamp
+          id = `${id}_${index}_${Date.now() % 10000}`;
+          
+          const imageMatches = html.match(/<img[^>]*src="([^"]*)"[^>]*>/g) || [];
+          let image_url = '';
+          if (imageMatches.length > 0) {
+            const firstImage = imageMatches[0]?.match(/src="([^"]*)"/);
+            image_url = firstImage ? firstImage[1] : '';
+          }
+          
+          const targetMatches = html.match(/<span class="value-goal">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
+          const raisedMatches = html.match(/<span class="value-raised">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
+          const progressMatches = html.match(/<div class="campaign-percent_raised">([0-9.]+)%<\/div>/g) || [];
+          
+          let target_amount = 0;
+          let raised_amount = 0;
+          let progress_percentage = 0;
+          
+          if (targetMatches.length > 0) {
+            const amountMatch = targetMatches[0]?.match(/([0-9.,]+)/);
+            target_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
+          }
+          
+          if (raisedMatches.length > 0) {
+            const amountMatch = raisedMatches[0]?.match(/([0-9.,]+)/);
+            raised_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
+          }
+          
+          if (progressMatches.length > 0) {
+            const percentMatch = progressMatches[0]?.match(/([0-9.]+)/);
+            progress_percentage = percentMatch ? parseFloat(percentMatch[1]) : 0;
+          }
+          
+          const categoriesMatch = html.match(/<span class="posted_in">(.*?)<\/span>/);
+          const categories: string[] = [];
+          if (categoriesMatch) {
+            const categoryLinks = categoriesMatch[1].match(/<a[^>]*rel="tag">([^<]*)<\/a>/g) || [];
+            for (const link of categoryLinks) {
+              const catMatch = link.match(/>([^<]*)</);
+              if (catMatch) {
+                categories.push(decodeHtmlEntities(catMatch[1].trim()));
+              }
+            }
+          }
+          
+          const daysMatch = html.match(/<span class="info-value time-remaining-desc">(\d+)<\/span>/);
+          const days_remaining = daysMatch ? parseInt(daysMatch[1]) : 0;
+          
+          let status: 'active' | 'completed' | 'pending' = 'active';
+          if (categories.some(cat => cat.includes('Đã hoàn thành'))) {
+            status = 'completed';
+          } else if (progress_percentage < 10) {
+            status = 'pending';
+          }
+          
+          if (title && target_amount > 0) {
+            projects.push({
+              id,
+              title,
+              description: '',
+              school_name: extractSchoolName(title),
+              location: extractLocation(title),
+              target_amount,
+              raised_amount,
+              progress_percentage,
+              status,
+              image_url,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              url,
+              categories,
+              days_remaining
+            });
+          }
+        } catch (error) {
+          console.error('❌ Lỗi parse project individual (fallback):', error);
+        }
+      });
+    }
+  } catch (error) {
+    console.error('❌ Lỗi fallback parse:', error);
+  }
+  
   return projects;
 }
 
