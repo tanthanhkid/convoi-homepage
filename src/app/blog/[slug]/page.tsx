@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import HtmlContent from '../../components/HtmlContent';
 
 interface Post {
   slug: string;
@@ -104,10 +105,7 @@ export default async function BlogPostPage({
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="p-8">
-            <div 
-              className="prose prose-lg max-w-none prose-headings:text-gray-800 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-pre:bg-gray-100 prose-pre:border prose-pre:border-gray-200"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <HtmlContent content={post.content} />
           </div>
         </div>
         
