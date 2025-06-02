@@ -199,16 +199,22 @@ function ProjectsSection() {
           </div>
           
           {/* Loading skeleton */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
-                <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded mb-4 w-3/4"></div>
-                <div className="h-2 bg-gray-200 rounded mb-4"></div>
-                <div className="flex gap-2">
-                  <div className="h-10 bg-gray-200 rounded flex-1"></div>
-                  <div className="h-10 bg-gray-200 rounded w-20"></div>
+          <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="masonry-item">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                  <div className="h-12 bg-gray-200"></div>
+                  <div className="h-48 bg-gray-200"></div>
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-2 bg-gray-200 rounded"></div>
+                    <div className="flex gap-2">
+                      <div className="h-8 bg-gray-200 rounded flex-1"></div>
+                      <div className="h-8 bg-gray-200 rounded w-16"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -298,10 +304,12 @@ function ProjectsSection() {
           </div>
         </div>
 
-        {/* Hiển thị tất cả dự án dạng grid cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Masonry layout - hiển thị tất cả dự án */}
+        <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
           {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <div key={project.id} className="masonry-item">
+              <ProjectCard project={project} />
+            </div>
           ))}
         </div>
 

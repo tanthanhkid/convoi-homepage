@@ -270,3 +270,32 @@ body {
     display: block !important;
   }
 }
+
+/* Masonry layout improvements */
+.masonry-container {
+  column-fill: balance;
+  column-gap: 1.5rem;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Prevent weird spacing in masonry */
+.masonry-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Better column distribution */
+@supports (grid-template-rows: masonry) {
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: masonry;
+    gap: 1.5rem;
+  }
+}
