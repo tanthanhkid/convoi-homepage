@@ -13,6 +13,7 @@ const Header = () => {
     { name: 'Chương trình Trường Sạch', href: '/truong-sach' },
     // { name: 'Sản phẩm', href: '/san-pham' },
     { name: 'Happy Market', href: '/happy-market' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Liên hệ', href: '/lien-he' },
   ];
 
