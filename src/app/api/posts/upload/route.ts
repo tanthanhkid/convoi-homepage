@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(bytes);
     const content = buffer.toString('utf-8');
 
-    // Tạo thư mục posts nếu chưa tồn tại
-    const postsDir = join(process.cwd(), 'public', 'posts');
+    // Tạo thư mục content/posts để lưu trữ vĩnh viễn
+    const postsDir = join(process.cwd(), 'content', 'posts');
     await mkdir(postsDir, { recursive: true });
 
     let processedContent = '';
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         .replace(/^-|-$/g, '');
     }
 
-    // Lưu file JSON chứa metadata và content
+    // Lưu file JSON chứa metadata và content vào content/posts
     const postData = {
       ...metadata,
       slug,
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const { readdir, readFile } = require('fs/promises');
-    const postsDir = join(process.cwd(), 'public', 'posts');
+    const postsDir = join(process.cwd(), 'content', 'posts');
     
     try {
       const files = await readdir(postsDir);

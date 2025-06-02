@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { slug } = params;
-    const postsDir = join(process.cwd(), 'public', 'posts');
+    const postsDir = join(process.cwd(), 'content', 'posts');
     const filePath = join(postsDir, `${slug}.json`);
     
     const content = await readFile(filePath, 'utf-8');
@@ -29,7 +29,7 @@ export async function DELETE(
 ) {
   try {
     const { slug } = params;
-    const postsDir = join(process.cwd(), 'public', 'posts');
+    const postsDir = join(process.cwd(), 'content', 'posts');
     const filePath = join(postsDir, `${slug}.json`);
     
     await unlink(filePath);
