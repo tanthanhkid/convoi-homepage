@@ -110,6 +110,22 @@ export default function TruongSach() {
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900">
                 Chương trình <span className="text-green-700">TRƯỜNG SẠCH</span>
               </h1>
+              
+              {/* Call to Action Button */}
+              <div className="mb-8">
+                <LoadingLink 
+                  href="/truong-sach/tang-3-gio"
+                  className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  <span className="mr-2">🎁</span>
+                  Tặng 3 giờ
+                  <span className="ml-2">→</span>
+                </LoadingLink>
+                <p className="text-sm text-gray-600 mt-3">
+                  Miễn phí 3 giờ làm sạch nhà vệ sinh cho các trường tại TP-HCM
+                </p>
+              </div>
+              
               {/* <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
                 "Tôi muốn có nhà vệ sinh sạch để học sinh sử dụng khi đến trường"
               </p>
