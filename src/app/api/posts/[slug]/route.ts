@@ -25,6 +25,30 @@ function extractMetadataFromHTML(content: string, filename: string) {
   };
 }
 
+// Function to extract body content from full HTML document
+function extractBodyContent(htmlContent: string): string {
+  // Try to extract content between <body> tags
+  const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+  if (bodyMatch) {
+    return bodyMatch[1].trim();
+  }
+  
+  // If no body tags found, check if it's already just content
+  const hasHtmlStructure = htmlContent.includes('<!DOCTYPE') || htmlContent.includes('<html');
+  if (!hasHtmlStructure) {
+    return htmlContent; // It's already just content
+  }
+  
+  // Fallback: return content after </head> and before </body> or </html>
+  const headEndMatch = htmlContent.match(/<\/head>\s*([\s\S]*?)(?:<\/body>|<\/html>)/i);
+  if (headEndMatch) {
+    return headEndMatch[1].trim();
+  }
+  
+  // Last resort: return the original content
+  return htmlContent;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
@@ -54,7 +78,7 @@ export async function GET(
     
     const post = {
       ...metadata,
-      content,
+      content: extractBodyContent(content),
       createdAt,
       updatedAt
     };
