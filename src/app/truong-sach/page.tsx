@@ -171,6 +171,166 @@ export default function TruongSach() {
           </div>
         </section>
 
+        {/* Giới thiệu chương trình TRƯỜNG SẠCH */}
+        <section className="section-padding bg-white">
+          <div className="container-padding">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                  Về chương trình <span className="text-green-700">TRƯỜNG SẠCH</span>
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Hiểu rõ hơn về sứ mệnh, triển khai và tác động của chương trình
+                </p>
+              </div>
+
+              <div className="space-y-8">
+                {/* Chương trình là gì */}
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span className="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">2</span>
+                    Chương trình "TRƯỜNG SẠCH" là gì?
+                  </h3>
+                  <div className="prose prose-lg max-w-none">
+                    <p className="text-gray-700 mb-4">
+                      Chương trình "TRƯỜNG SẠCH" nằm trong dự án tổng thể <strong>Clean for All</strong>, nhằm mang đến giải pháp cải thiện vệ sinh công cộng tại Việt Nam, tập trung trước hết vào các cơ sở giáo dục. Chúng tôi hướng tới mô hình <strong>Doanh nghiệp xã hội</strong> – đặt mục tiêu tác động xã hội song song với hiệu quả kinh tế, cụ thể:
+                    </p>
+                    <ul className="list-disc list-inside space-y-3 text-gray-700">
+                      <li><strong>Giải quyết "nỗi ám ảnh nhà vệ sinh công cộng":</strong> Cung cấp và duy trì giải pháp BRT-3P, giúp các trường học có nhà vệ sinh sạch, được khử khuẩn, khử mùi mỗi ngày.</li>
+                      <li><strong>Đóng góp vào sự phát triển bền vững:</strong> Sử dụng chất tẩy rửa ít tác hại môi trường BRT-3, kết hợp nước cao áp, công nghệ IoT, AI, Robot để tối ưu quy trình, giảm ô nhiễm và tiết kiệm nguồn lực.</li>
+                      <li><strong>Huy động nguồn lực toàn xã hội:</strong> Kết nối với chính quyền, doanh nghiệp, tổ chức phi chính phủ, cộng đồng thiện nguyện… để tạo sức mạnh tổng hợp, giảm áp lực cho ngân sách.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Triển khai như thế nào */}
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">3</span>
+                    Chương trình "TRƯỜNG SẠCH" triển khai như thế nào?
+                  </h3>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {/* Giải pháp tổng thể */}
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-4 text-blue-800">Giải pháp tổng thể</h4>
+                      <div className="space-y-4">
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">🔬 Công nghệ làm sạch tiên tiến</h5>
+                          <p className="text-gray-700 text-sm">Dung dịch bọt tuyết cao áp gốc sinh học BRT-3 kết hợp máy rửa cao áp để làm sạch, khử khuẩn và khử mùi nhà vệ sinh công cộng mỗi ngày.</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">👥 Đội ngũ chuyên gia hàng đầu</h5>
+                          <p className="text-gray-700 text-sm">Chuyên gia giải pháp với hơn 20 năm kinh nghiệm trong ngành tẩy rửa công nghiệp. Chuyên gia công nghệ thông tin (IoT, AI, Robot) đồng hành.</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">🌱 Định hướng xanh và bền vững</h5>
+                          <p className="text-gray-700 text-sm">Ưu tiên chất tẩy rửa ít độc hại, ứng dụng IoT để quản lý thiết bị, triển khai AI và Robot để tối ưu hóa quy trình.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Triển khai cụ thể */}
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-4 text-blue-800">Triển khai cụ thể</h4>
+                      <div className="space-y-4">
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">🔧 Giải pháp kỹ thuật</h5>
+                          <p className="text-gray-700 text-sm">Máy móc làm sạch tiên tiến, dung dịch tẩy rửa gốc sinh học BRT-3 và quy trình thi công đơn giản giúp đảm bảo tính hiệu quả, tiết kiệm thời gian.</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">💰 Giải pháp tài chính</h5>
+                          <ul className="text-gray-700 text-sm space-y-1 list-disc list-inside">
+                            <li>Quyên góp bằng tiền trên Sotute.com</li>
+                            <li>Phối hợp các NGO trong và ngoài nước</li>
+                            <li>Dịch vụ CSR cho doanh nghiệp</li>
+                            <li>Trích doanh thu từ các đối tác</li>
+                          </ul>
+                        </div>
+                        <div className="bg-white rounded-lg p-4">
+                          <h5 className="font-semibold text-gray-900 mb-2">📚 Giải pháp tăng cường giáo dục</h5>
+                          <p className="text-gray-700 text-sm">Triển khai giáo dục – huấn luyện để nâng cao ý thức vệ sinh công cộng, tạo sự đồng thuận rộng rãi trong xã hội.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sự khác biệt */}
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span className="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">✨</span>
+                    Sự khác biệt
+                  </h3>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="bg-white rounded-lg p-6 text-center">
+                      <div className="text-3xl mb-3">🌍</div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Giải pháp toàn diện</h4>
+                      <p className="text-gray-700 text-sm">Kinh tế – xã hội – môi trường. Gói giải pháp khép kín từ máy móc, dung dịch đến đào tạo vận hành.</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 text-center">
+                      <div className="text-3xl mb-3">🤖</div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Công nghệ hiện đại</h4>
+                      <p className="text-gray-700 text-sm">IoT, AI được đưa vào giám sát chất lượng, dự đoán bảo trì, giảm thiểu chi phí vận hành.</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 text-center">
+                      <div className="text-3xl mb-3">🤝</div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Xã hội hóa kinh phí</h4>
+                      <p className="text-gray-700 text-sm">Tạo cơ hội cho mọi thành phần trong xã hội đóng góp vào mục tiêu chung.</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 text-center">
+                      <div className="text-3xl mb-3">👨‍💼</div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Đội ngũ chuyên gia</h4>
+                      <p className="text-gray-700 text-sm">Kết hợp kiến thức kỹ thuật, am hiểu thị trường và kỹ năng kinh doanh chuyên nghiệp.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Liên hệ với SDGs */}
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span className="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">4</span>
+                    Liên hệ với Mục tiêu Phát triển Bền vững (SDGs)
+                  </h3>
+                  
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="bg-white rounded-lg p-6">
+                      <div className="flex items-center mb-4">
+                        <div className="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg mr-4">3</div>
+                        <h4 className="font-semibold text-gray-900">Sức khỏe và Cuộc sống Khỏe mạnh</h4>
+                      </div>
+                      <p className="text-gray-700 text-sm">
+                        Nhà vệ sinh sạch đóng vai trò quan trọng trong việc ngăn ngừa dịch bệnh lây lan, giảm nguy cơ mắc bệnh nan y và mạn tính.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg p-6">
+                      <div className="flex items-center mb-4">
+                        <div className="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg mr-4">4</div>
+                        <h4 className="font-semibold text-gray-900">Giáo dục Chất lượng</h4>
+                      </div>
+                      <p className="text-gray-700 text-sm">
+                        Môi trường học tập tốt hơn giúp học sinh tập trung học tập, giảm tình trạng nghỉ học do bệnh tật.
+                      </p>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg p-6">
+                      <div className="flex items-center mb-4">
+                        <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg mr-4">17</div>
+                        <h4 className="font-semibold text-gray-900">Quan hệ đối tác</h4>
+                      </div>
+                      <p className="text-gray-700 text-sm">
+                        Tạo liên kết bền vững giữa chính quyền, doanh nghiệp, NGOs, cộng đồng để nhân rộng mô hình "TRƯỜNG SẠCH".
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Project Status Section - Dữ liệu thực từ SOTUTE */}
         <section className="section-padding bg-gray-50">
           <div className="container-padding">
@@ -345,9 +505,9 @@ export default function TruongSach() {
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Tiến độ
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Trạng thái
-                          </th>
+                          </th> */}
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Hành động
                           </th>
@@ -430,7 +590,7 @@ export default function TruongSach() {
                             </td>
 
                             {/* Trạng thái */}
-                            <td className="px-6 py-4">
+                            {/* <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                 project.status === 'completed' 
                                   ? 'bg-green-100 text-green-800' 
@@ -441,7 +601,7 @@ export default function TruongSach() {
                                 {project.status === 'completed' ? 'Hoàn thành' : 
                                  project.status === 'active' ? 'Đang thực hiện' : 'Vận động kinh phí'}
                               </span>
-                            </td>
+                            </td> */}
 
                             {/* Hành động */}
                             <td className="px-6 py-4">
@@ -453,10 +613,10 @@ export default function TruongSach() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 transition-colors duration-200"
                                   >
-                                    ⚡ Quyên góp
+                                  Quyên góp
                                   </a>
                                 )}
-                                {project.url && (
+                                {/* {project.url && (
                                   <a
                                     href={project.url}
                                     target="_blank"
@@ -465,7 +625,7 @@ export default function TruongSach() {
                                   >
                                     Chi tiết
                                   </a>
-                                )}
+                                )} */}
                               </div>
                             </td>
                           </tr>
