@@ -29,7 +29,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <LoadingLink href="/truong-sach" className="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center">
-                  Đăng ký trường học
+                  Xem các dự án thực tế
                 </LoadingLink>
                 <LoadingLink href="/lien-he" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-center">
                   Liên hệ ngay
@@ -61,9 +61,6 @@ export default function Home() {
           </div>
         </div>
       </section>
- 
-      {/* Projects Section */}
-      <ProjectsSection />
 
       {/* Banner Section 2 - Happy Market */}
       <section className="section-padding bg-gradient-to-br from-yellow-50 to-orange-50">
@@ -109,9 +106,9 @@ export default function Home() {
                 Nền tảng quyên góp trực tuyến hỗ trợ học sinh. 
                 Chúng tôi giúp biến ước mơ của các em có nhà vệ sinh sạch thành hiện thực.
               </p>
-              <a href="#" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
-                Biến ước mơ thành hiện thực
-              </a>
+              <LoadingLink href="/truong-sach" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
+                Xem các dự án thực tế
+              </LoadingLink>
             </div>
             <div className="relative">
               <div className="bg-white rounded-xl shadow-lg p-8">
@@ -169,7 +166,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <LoadingLink href="/truong-sach" className="bg-white text-green-700 hover:bg-gray-100 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
-              Đăng ký trường học
+              Xem các dự án thực tế
             </LoadingLink>
             <LoadingLink href="/lien-he" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200">
               Liên hệ hỗ trợ
@@ -180,170 +177,5 @@ export default function Home() {
 
       <Footer />
     </>
-  );
-}
-
-// Component hiển thị các dự án
-function ProjectsSection() {
-  const { projects, loading, error } = useSotuteData();
-
-  if (loading) {
-    return (
-      <section className="section-padding bg-gray-50">
-        <div className="container-padding">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Tình trạng các dự án thực tế
-            </h2>
-            <p className="text-xl text-gray-600">
-              Dữ liệu trực tiếp từ nền tảng SOTUTE
-            </p>
-          </div>
-          
-          {/* Loading skeleton */}
-          <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={`loading_skeleton_${i}`} className="masonry-item">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                  <div className="h-12 bg-gray-200"></div>
-                  <div className="h-48 bg-gray-200"></div>
-                  <div className="p-4 space-y-3">
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                    <div className="h-2 bg-gray-200 rounded"></div>
-                    <div className="flex gap-2">
-                      <div className="h-8 bg-gray-200 rounded flex-1"></div>
-                      <div className="h-8 bg-gray-200 rounded w-16"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="section-padding bg-gray-50">
-        <div className="container-padding">
-          <div className="text-center">
-            <div className="text-6xl mb-4">⚠️</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Không thể kết nối tới SOTUTE
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Hệ thống đang gặp sự cố kết nối. Vui lòng thử lại sau.
-            </p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
-            >
-              Thử lại
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (projects.length === 0) {
-    return (
-      <section className="section-padding bg-gray-50">
-        <div className="container-padding">
-          <div className="text-center">
-            <div className="text-6xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Chưa có dữ liệu dự án
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Hệ thống đang cập nhật dữ liệu từ SOTUTE, vui lòng thử lại sau.
-            </p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
-            >
-              Tải lại
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  const activeProjects = projects.filter(p => p.status === 'active');
-  const pendingProjects = projects.filter(p => p.status === 'pending');
-  const completedProjects = projects.filter(p => p.status === 'completed');
-
-  return (
-    <section className="section-padding bg-gray-50">
-      <div className="container-padding">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Tình trạng các dự án thực tế
-          </h2>
-          <p className="text-xl text-gray-600 mb-6">
-            Dữ liệu trực tiếp từ nền tảng SOTUTE
-          </p>
-          
-          {/* Summary stats */}
-          <div className="flex justify-center gap-8 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>{activeProjects.length} Đang thực hiện</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-              <span>{pendingProjects.length} Vận động kinh phí</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span>{completedProjects.length} Đã hoàn thành</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Masonry layout - hiển thị tất cả dự án */}
-        <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-          {projects.map((project, index) => (
-            <div key={`${project.id}_${index}`} className="masonry-item">
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
-
-        {/* Call to action */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Bạn muốn đăng ký trường học tham gia?
-            </h3>
-            <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-              Chúng tôi sẵn sàng hỗ trợ trường học của bạn xây dựng nhà vệ sinh sạch cho học sinh. 
-              Hãy liên hệ với chúng tôi để được tư vấn chi tiết.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <LoadingLink 
-                href="/truong-sach" 
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-              >
-                <span>📝</span>
-                <span>Đăng ký trường học</span>
-              </LoadingLink>
-              <LoadingLink 
-                href="/lien-he" 
-                className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-3 rounded-lg transition-all duration-200 inline-flex items-center gap-2"
-              >
-                <span>📞</span>
-                <span>Liên hệ tư vấn</span>
-              </LoadingLink>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
