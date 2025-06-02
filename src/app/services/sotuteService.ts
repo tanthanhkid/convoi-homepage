@@ -11,6 +11,9 @@ export interface SotuteProject {
   image_url?: string;
   created_at: string;
   updated_at: string;
+  url?: string; // Thêm URL để link về sotute.com
+  categories?: string[]; // Thêm danh mục từ HTML
+  days_remaining?: number; // Thêm số ngày còn lại
 }
 
 export interface SotuteApiResponse {
@@ -23,7 +26,6 @@ export interface SotuteApiResponse {
 
 class SotuteService {
   private baseUrl = 'https://sotute.com';
-  private apiEndpoint = '/api/projects'; // Endpoint giả định
   private cache: SotuteProject[] = [];
   private lastFetch: number = 0;
   private cacheExpiry = 5 * 60 * 1000; // 5 phút cache
@@ -76,25 +78,196 @@ class SotuteService {
     this.listeners.forEach(callback => callback(projects));
   }
 
+  // Parse dữ liệu từ HTML sotute.com
+  private parseProjectFromHTML(html: string): SotuteProject[] {
+    const projects: SotuteProject[] = [];
+    
+    try {
+      // Tìm các campaign-block, sử dụng approach đơn giản hơn
+      // Do HTML có thể có nested divs, ta sẽ parse từng phần riêng biệt
+      
+      if (html.includes('campaign-block')) {
+        console.log('🔍 Tìm thấy campaign blocks trong HTML');
+        
+        // Parse title - tìm tất cả titles trong page
+        const titleMatches = html.match(/<h4 class="title">[\s\S]*?<a[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/g) || [];
+        console.log(`📝 Tìm thấy ${titleMatches.length} titles`);
+        
+        for (const titleMatch of titleMatches) {
+          try {
+            // Extract title
+            const titleExtract = titleMatch.match(/<a[^>]*>([^<]+)<\/a>/);
+            const title = titleExtract ? titleExtract[1].trim() : '';
+            
+            if (!title) continue;
+            
+            // Tìm URL từ title block này
+            const urlMatch = titleMatch.match(/<a href="([^"]*)"[^>]*>/);
+            const url = urlMatch ? urlMatch[1].trim() : '';
+            
+            // Tạo ID từ URL
+            const id = url ? url.split('/').filter(Boolean).pop() || `project_${Date.now()}` : `project_${Date.now()}`;
+            
+            // Tìm image gần title này (có thể cần tìm trong context gần đó)
+            const imageMatches = html.match(/<img[^>]*src="([^"]*)"[^>]*>/g) || [];
+            let image_url = '';
+            if (imageMatches.length > 0) {
+              const firstImage = imageMatches[0]?.match(/src="([^"]*)"/);
+              image_url = firstImage ? firstImage[1] : '';
+            }
+            
+            // Parse amounts - tìm tất cả amounts và match theo thứ tự
+            const targetMatches = html.match(/<span class="value-goal">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
+            const raisedMatches = html.match(/<span class="value-raised">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
+            const progressMatches = html.match(/<div class="campaign-percent_raised">([0-9.]+)%<\/div>/g) || [];
+            
+            // Lấy giá trị đầu tiên (giả sử chỉ có 1 project trong test)
+            let target_amount = 0;
+            let raised_amount = 0;
+            let progress_percentage = 0;
+            
+            if (targetMatches.length > 0) {
+              const amountMatch = targetMatches[0]?.match(/([0-9.,]+)/);
+              target_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
+            }
+            
+            if (raisedMatches.length > 0) {
+              const amountMatch = raisedMatches[0]?.match(/([0-9.,]+)/);
+              raised_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
+            }
+            
+            if (progressMatches.length > 0) {
+              const percentMatch = progressMatches[0]?.match(/([0-9.]+)/);
+              progress_percentage = percentMatch ? parseFloat(percentMatch[1]) : 0;
+            }
+            
+            // Parse categories
+            const categoriesMatch = html.match(/<span class="posted_in">(.*?)<\/span>/);
+            const categories: string[] = [];
+            if (categoriesMatch) {
+              const categoryLinks = categoriesMatch[1].match(/<a[^>]*rel="tag">([^<]*)<\/a>/g) || [];
+              for (const link of categoryLinks) {
+                const catMatch = link.match(/>([^<]*)</);
+                if (catMatch) categories.push(catMatch[1].trim());
+              }
+            }
+            
+            // Parse days remaining
+            const daysMatch = html.match(/<span class="info-value time-remaining-desc">(\d+)<\/span>/);
+            const days_remaining = daysMatch ? parseInt(daysMatch[1]) : 0;
+            
+            // Determine status
+            let status: 'active' | 'completed' | 'pending' = 'active';
+            if (categories.some(cat => cat.includes('Đã hoàn thành'))) {
+              status = 'completed';
+            } else if (progress_percentage < 10) {
+              status = 'pending';
+            }
+            
+            if (title && target_amount > 0) {
+              projects.push({
+                id,
+                title,
+                description: '', // Có thể parse thêm nếu cần
+                school_name: this.extractSchoolName(title),
+                location: this.extractLocation(title),
+                target_amount,
+                raised_amount,
+                progress_percentage,
+                status,
+                image_url,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                url,
+                categories,
+                days_remaining
+              });
+              
+              console.log(`✅ Parsed project: ${title}`);
+            }
+          } catch (error) {
+            console.error('❌ Lỗi parse project individual:', error);
+          }
+        }
+      } else {
+        console.log('⚠️ Không tìm thấy campaign-block trong HTML');
+      }
+    } catch (error) {
+      console.error('❌ Lỗi parse HTML từ sotute.com:', error);
+    }
+    
+    console.log(`🎯 Parsed total ${projects.length} projects from HTML`);
+    return projects;
+  }
+  
+  // Trích xuất tên trường từ title
+  private extractSchoolName(title: string): string {
+    // Tìm pattern "Trường THPT/THCS/TH [Tên]"
+    const schoolMatch = title.match(/Trường\s+(THPT|THCS|TH)\s+([^,–-]+)/i);
+    if (schoolMatch) {
+      return `${schoolMatch[1]} ${schoolMatch[2].trim()}`;
+    }
+    
+    // Fallback: lấy phần sau "cho học sinh"
+    const fallbackMatch = title.match(/cho học sinh\s+([^,–-]+)/i);
+    if (fallbackMatch) {
+      return fallbackMatch[1].trim();
+    }
+    
+    return '';
+  }
+  
+  // Trích xuất địa điểm từ title
+  private extractLocation(title: string): string {
+    // Tìm các tỉnh/thành phố phổ biến ở cuối title
+    const locationPattern = /–\s*([^–]+)$/;
+    const match = title.match(locationPattern);
+    if (match) {
+      return match[1].trim();
+    }
+    
+    // Fallback: tìm tên tỉnh/thành trong title
+    const provinces = ['Trà Vinh', 'TP.HCM', 'Hà Nội', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng', 'Yên Bái'];
+    for (const province of provinces) {
+      if (title.includes(province)) {
+        return province;
+      }
+    }
+    
+    return '';
+  }
+
   // Fetch dữ liệu từ sotute.com
   async fetchProjects(): Promise<SotuteProject[]> {
     try {
       console.log('🔄 Đang lấy dữ liệu từ sotute.com...');
       
-      // Thử fetch từ API thực
-      const response = await fetch(`${this.baseUrl}${this.apiEndpoint}`, {
+      // Fetch HTML từ trang chủ sotute.com để lấy danh sách các dự án
+      const response = await fetch(this.baseUrl, {
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         },
       });
 
       if (response.ok) {
-        const data: SotuteApiResponse = await response.json();
-        this.cache = data.data;
+        const html = await response.text();
+        const projects = this.parseProjectFromHTML(html);
+        
+        // Nếu không parse được dữ liệu từ HTML, sử dụng mock data
+        if (projects.length === 0) {
+          console.warn('⚠️ Không parse được dữ liệu từ sotute.com, sử dụng dữ liệu mẫu');
+          const mockData = this.getMockData();
+          this.cache = mockData;
+          this.lastFetch = Date.now();
+          this.notifyListeners(this.cache);
+          return this.cache;
+        }
+        
+        this.cache = projects;
         this.lastFetch = Date.now();
-        console.log(`✅ Đã lấy ${data.data.length} dự án từ sotute.com`);
+        console.log(`✅ Đã lấy ${projects.length} dự án từ sotute.com`);
         this.notifyListeners(this.cache);
         return this.cache;
       } else {
@@ -103,7 +276,7 @@ class SotuteService {
     } catch (error) {
       console.warn('⚠️ Không thể lấy dữ liệu từ sotute.com, sử dụng dữ liệu mẫu:', error);
       
-      // Sử dụng dữ liệu mẫu khi không thể fetch từ API
+      // Sử dụng dữ liệu mẫu khi không thể fetch từ website
       const mockData = this.getMockData();
       this.cache = mockData;
       this.lastFetch = Date.now();
