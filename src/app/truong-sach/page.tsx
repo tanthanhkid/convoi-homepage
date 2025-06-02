@@ -319,50 +319,217 @@ export default function TruongSach() {
                 </button>
               </div>
             ) : (
-              /* Masonry layout với pagination */
+              /* Table layout với pagination */
               <>
-                <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-                  {visibleProjects.map((project, index) => (
-                    <div key={`${project.id}_${index}`} className="masonry-item">
-                      <ProjectCard project={project} />
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                  {/* Table Header */}
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Dự án
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                            Trường học
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                            Địa điểm
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mục tiêu
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                            Đã quyên góp
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tiến độ
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Trạng thái
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Hành động
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {visibleProjects.map((project, index) => (
+                          <tr key={`${project.id}_${index}`} className="hover:bg-gray-50 transition-colors duration-200">
+                            {/* Dự án (with image and title) */}
+                            <td className="px-6 py-4">
+                              <div className="flex items-center">
+                                <div className="flex-shrink-0 h-16 w-16">
+                                  <img 
+                                    className="h-16 w-16 rounded-lg object-cover border"
+                                    src={project.image_url || '/images/default-project.jpg'} 
+                                    alt={project.title}
+                                    onError={(e) => {
+                                      e.currentTarget.src = '/images/default-project.jpg';
+                                    }}
+                                  />
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                                    {project.title}
+                                  </div>
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    {project.categories?.join(', ') || 'Chương trình trường sạch'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+
+                            {/* Trường học */}
+                            <td className="px-6 py-4 hidden md:table-cell">
+                              <div className="text-sm text-gray-900">
+                                {project.school_name || 'N/A'}
+                              </div>
+                            </td>
+
+                            {/* Địa điểm */}
+                            <td className="px-6 py-4 hidden lg:table-cell">
+                              <div className="text-sm text-gray-900">
+                                {project.location || 'N/A'}
+                              </div>
+                            </td>
+
+                            {/* Mục tiêu */}
+                            <td className="px-6 py-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                {project.target_amount.toLocaleString('vi-VN')}đ
+                              </div>
+                            </td>
+
+                            {/* Đã quyên góp */}
+                            <td className="px-6 py-4 hidden sm:table-cell">
+                              <div className="text-sm text-gray-900">
+                                {project.raised_amount.toLocaleString('vi-VN')}đ
+                              </div>
+                            </td>
+
+                            {/* Tiến độ */}
+                            <td className="px-6 py-4">
+                              <div className="flex items-center">
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                  <div 
+                                    className={`h-2 rounded-full ${
+                                      project.progress_percentage >= 100 
+                                        ? 'bg-green-600' 
+                                        : project.progress_percentage >= 50 
+                                        ? 'bg-blue-600' 
+                                        : 'bg-orange-600'
+                                    }`}
+                                    style={{ width: `${Math.min(project.progress_percentage, 100)}%` }}
+                                  ></div>
+                                </div>
+                                <span className="ml-2 text-sm font-medium text-gray-900 whitespace-nowrap">
+                                  {project.progress_percentage.toFixed(1)}%
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Trạng thái */}
+                            <td className="px-6 py-4">
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                project.status === 'completed' 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : project.status === 'active' 
+                                  ? 'bg-blue-100 text-blue-800' 
+                                  : 'bg-orange-100 text-orange-800'
+                              }`}>
+                                {project.status === 'completed' ? 'Hoàn thành' : 
+                                 project.status === 'active' ? 'Đang thực hiện' : 'Vận động kinh phí'}
+                              </span>
+                            </td>
+
+                            {/* Hành động */}
+                            <td className="px-6 py-4">
+                              <div className="flex flex-col sm:flex-row gap-2">
+                                {project.url && (
+                                  <a
+                                    href={project.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 transition-colors duration-200"
+                                  >
+                                    ⚡ Quyên góp
+                                  </a>
+                                )}
+                                {project.url && (
+                                  <a
+                                    href={project.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+                                  >
+                                    Chi tiết
+                                  </a>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Pagination footer */}
+                  <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                    <div className="flex-1 flex justify-between sm:hidden">
+                      <div className="text-sm text-gray-700">
+                        Hiển thị {visibleCount} / {projects.length} dự án
+                      </div>
+                      {hasMore && (
+                        <button
+                          onClick={loadMore}
+                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                          Xem thêm
+                        </button>
+                      )}
                     </div>
-                  ))}
+                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-sm text-gray-700">
+                          Hiển thị <span className="font-medium">{Math.min(visibleCount, projects.length)}</span> trong tổng số{' '}
+                          <span className="font-medium">{projects.length}</span> dự án
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {hasMore && (
+                          <button
+                            onClick={loadMore}
+                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span>Xem thêm {isMobile ? 2 : 4} dự án</span>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </span>
+                          </button>
+                        )}
+                        
+                        {!hasMore && projects.length > (isMobile ? 2 : 4) && (
+                          <button
+                            onClick={() => setVisibleCount(isMobile ? 2 : 4)}
+                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+                          >
+                            ↑ Thu gọn
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Nút Xem thêm */}
-                {hasMore && (
-                  <div className="text-center mt-12">
-                    <button
-                      onClick={loadMore}
-                      className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                    >
-                      <span className="flex items-center gap-2">
-                        <span>Xem thêm dự án</span>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </span>
-                    </button>
-                    <p className="text-sm text-gray-500 mt-3">
-                      Hiển thị {visibleCount} / {projects.length} dự án
-                    </p>
-                  </div>
-                )}
-
-                {/* Show all button khi đã xem hết */}
+                {/* Summary message when all viewed */}
                 {!hasMore && projects.length > (isMobile ? 2 : 4) && (
-                  <div className="text-center mt-12">
-                    <div className="flex flex-col items-center gap-4">
-                      <div className="text-gray-600">
-                        <span className="text-lg">🎉</span>
-                        <span className="ml-2">Bạn đã xem hết tất cả {projects.length} dự án</span>
-                      </div>
-                      <button
-                        onClick={() => setVisibleCount(isMobile ? 2 : 4)}
-                        className="text-green-600 hover:text-green-700 font-medium text-sm transition-colors duration-200"
-                      >
-                        ↑ Thu gọn về đầu
-                      </button>
+                  <div className="text-center mt-8">
+                    <div className="text-gray-600">
+                      <span className="text-lg">🎉</span>
+                      <span className="ml-2">Bạn đã xem hết tất cả {projects.length} dự án</span>
                     </div>
                   </div>
                 )}
