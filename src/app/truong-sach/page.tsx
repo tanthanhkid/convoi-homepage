@@ -9,14 +9,17 @@ import { useSotuteData } from '../hooks/useSotuteData';
 
 export default function TruongSach() {
   const { 
-    activeProjects, 
-    pendingProjects, 
-    completedProjects,
+    projects,
     loading, 
     error, 
     refreshData, 
-    lastUpdated 
+    metadata 
   } = useSotuteData();
+
+  // Tính toán derived data từ projects
+  const activeProjects = projects.filter(p => p.status === 'active');
+  const pendingProjects = projects.filter(p => p.status === 'pending');
+  const completedProjects = projects.filter(p => p.status === 'completed');
 
   useEffect(() => {
     // Load GetFly form script
@@ -144,8 +147,8 @@ export default function TruongSach() {
                 Dữ liệu trực tiếp từ nền tảng SOTUTE
               </p>
               
-              {/* Status và Last Updated */}
-              <div className="flex justify-center items-center gap-4 mb-8">
+              {/* Status và Cache Info */}
+              <div className="flex justify-center items-center gap-4 mb-8 flex-wrap">
                 {loading && (
                   <div className="flex items-center gap-2 text-green-600">
                     <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
@@ -153,36 +156,82 @@ export default function TruongSach() {
                   </div>
                 )}
                 
-                {lastUpdated && !loading && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="text-sm">
-                      Cập nhật lúc: {lastUpdated.toLocaleTimeString('vi-VN')}
-                    </span>
+                {metadata && !loading && (
+                  <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>
+                        Cập nhật: {new Date(metadata.cached_at).toLocaleString('vi-VN')}
+                      </span>
+                    </div>
+                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      metadata.is_fresh && metadata.cache_age_minutes < 5 
+                        ? 'bg-green-100 text-green-800' 
+                        : metadata.cache_age_minutes < 10
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {metadata.is_fresh && metadata.cache_age_minutes < 5 
+                        ? '🟢 Fresh' 
+                        : metadata.cache_age_minutes < 10
+                        ? '🟡 Aging'
+                        : '🔴 Stale'}
+                    </div>
                   </div>
                 )}
                 
                 <button
                   onClick={refreshData}
                   disabled={loading}
-                  className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white text-sm px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none"
+                  className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white text-sm px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none flex items-center gap-2"
                 >
-                  🔄 Làm mới
+                  {loading ? (
+                    <>
+                      <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Đang tải...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>🔄</span>
+                      <span>Làm mới</span>
+                    </>
+                  )}
                 </button>
               </div>
               
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-8 max-w-md mx-auto">
-                  <p className="text-sm">⚠️ {error}</p>
+                  <div className="flex items-center gap-2">
+                    <span>⚠️</span>
+                    <span className="text-sm">{error}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Summary Stats */}
+              {metadata && !loading && (
+                <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mb-8">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">{metadata.active_projects}</div>
+                    <div className="text-xs text-gray-600">Đang thực hiện</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">{metadata.pending_projects}</div>
+                    <div className="text-xs text-gray-600">Vận động kinh phí</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-600">{metadata.completed_projects}</div>
+                    <div className="text-xs text-gray-600">Đã hoàn thành</div>
+                  </div>
                 </div>
               )}
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Đang thực hiện */}
-              <div className="card">
+              <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center mb-6">
                   <div className="bg-green-100 p-3 rounded-lg mr-4">
                     <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,6 +256,7 @@ export default function TruongSach() {
                     ))
                   ) : (
                     <div className="text-center py-8 text-gray-500">
+                      <div className="text-4xl mb-2">🏗️</div>
                       <p>Hiện tại không có dự án nào đang thực hiện</p>
                     </div>
                   )}
@@ -214,7 +264,7 @@ export default function TruongSach() {
               </div>
 
               {/* Đang vận động kinh phí */}
-              <div className="card">
+              <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center mb-6">
                   <div className="bg-orange-100 p-3 rounded-lg mr-4">
                     <svg className="h-8 w-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -239,6 +289,7 @@ export default function TruongSach() {
                     ))
                   ) : (
                     <div className="text-center py-8 text-gray-500">
+                      <div className="text-4xl mb-2">💰</div>
                       <p>Hiện tại không có dự án nào đang vận động kinh phí</p>
                     </div>
                   )}
@@ -250,9 +301,10 @@ export default function TruongSach() {
                       href="https://sotute.com" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block"
+                      className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full text-center block flex items-center justify-center gap-2"
                     >
-                      Xem tất cả trên SOTUTE
+                      <span>🌐</span>
+                      <span>Xem tất cả trên SOTUTE</span>
                     </a>
                   </div>
                 )}
@@ -276,6 +328,18 @@ export default function TruongSach() {
                     <ProjectCard key={project.id} project={project} showDonateButton={false} />
                   ))}
                 </div>
+                
+                {completedProjects.length > 6 && (
+                  <div className="text-center mt-8">
+                    <LoadingLink 
+                      href="/du-an/da-hoan-thanh" 
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+                    >
+                      <span>👀</span>
+                      <span>Xem tất cả dự án đã hoàn thành ({completedProjects.length})</span>
+                    </LoadingLink>
+                  </div>
+                )}
               </div>
             )}
           </div>
