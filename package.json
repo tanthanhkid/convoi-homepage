@@ -1,6 +1,7 @@
 {
   "name": "convoi-homepage",
   "version": "0.1.0",
+  "description": "Trang landing page đơn giản với Hello World được xây dựng bằng Next.js và Tailwind CSS",
   "private": true,
   "scripts": {
     "dev": "next dev",

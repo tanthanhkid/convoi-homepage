@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Convoi Homepage
 
-## Getting Started
+Trang landing page đơn giản được xây dựng với Next.js và Tailwind CSS, hiển thị "Hello World" với giao diện đẹp mắt.
 
-First, run the development server:
+## 🚀 Tính năng
+
+- ✨ Giao diện hiện đại với gradient đẹp mắt
+- 🌙 Hỗ trợ Dark/Light mode
+- 📱 Responsive design
+- ⚡ Được xây dựng với Next.js 15 và Tailwind CSS
+
+## 🛠️ Cài đặt & Chạy local
 
 ```bash
+# Cài đặt dependencies
+npm install
+
+# Chạy ở chế độ development
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build cho production
+npm run build
+
+# Chạy bản build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ứng dụng sẽ chạy tại [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Triển khai lên Netlify
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Cách 1: Deploy qua Git (Khuyến nghị)
 
-## Learn More
+1. **Push code lên GitHub:**
+   ```bash
+   git add .
+   git commit -m "Initial commit: Convoi Homepage"
+   git branch -M main
+   git remote add origin <YOUR_GITHUB_REPO_URL>
+   git push -u origin main
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Kết nối với Netlify:**
+   - Truy cập [Netlify](https://app.netlify.com/)
+   - Đăng nhập và click "New site from Git"
+   - Chọn GitHub và repository của bạn
+   - Site name: `convoi-homepage`
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+   - Click "Deploy site"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Cách 2: Deploy qua Netlify CLI
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Cài đặt Netlify CLI:**
+   ```bash
+   npm install -g netlify-cli
+   ```
 
-## Deploy on Vercel
+2. **Login và deploy:**
+   ```bash
+   netlify login
+   netlify init
+   netlify deploy --prod
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Cấu trúc dự án
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+convoi-homepage/
+├── src/
+│   └── app/
+│       ├── page.tsx          # Trang chủ
+│       ├── layout.tsx        # Layout chung
+│       └── globals.css       # CSS toàn cục
+├── public/                   # Assets tĩnh
+├── netlify.toml             # Cấu hình Netlify
+└── package.json             # Dependencies
+```
+
+## 🎨 Tùy chỉnh
+
+Để thay đổi nội dung trang chủ, chỉnh sửa file `src/app/page.tsx`.
+
+## 📝 Lưu ý
+
+- Dự án sử dụng Next.js App Router
+- Tích hợp Tailwind CSS cho styling
+- Đã cấu hình sẵn cho Netlify deployment
+- Hỗ trợ TypeScript
+
+---
+
+Được tạo bởi [Convoi Team](https://github.com/convoi) ❤️
