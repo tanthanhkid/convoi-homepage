@@ -107,9 +107,9 @@ export default function Home() {
                 Nền tảng quyên góp trực tuyến hỗ trợ học sinh. 
                 Chúng tôi giúp biến ước mơ của các em có nhà vệ sinh sạch thành hiện thực.
               </p>
-              <LoadingLink href="/truong-sach" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
+              <a href="https://sotute.com" target="_blank" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
                 Xem các dự án thực tế
-              </LoadingLink>
+              </a>
             </div>
             <div className="relative">
               <div className="bg-white rounded-xl shadow-lg p-8">
