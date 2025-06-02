@@ -9,13 +9,63 @@ export default function About() {
         {/* Hero Section */}
         <section className="section-padding bg-gradient-to-br from-green-50 to-green-100">
           <div className="container-padding">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-gray-900">
                 Về <span className="text-green-700">Dự án Clean for All</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-4xl mx-auto">
                 Giải quyết triệt để "nỗi ám ảnh nhà vệ sinh công cộng", thay đổi theo hướng tích cực bộ mặt của đất nước và con người Việt Nam
               </p>
+            </div>
+
+            {/* Video và nội dung giới thiệu */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+              <div className="order-2 lg:order-1">
+                <div className="bg-white rounded-xl shadow-lg p-8">
+                  <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-gray-900">
+                    🎬 Video giới thiệu dự án
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-6">
+                    Tìm hiểu chi tiết về sứ mệnh, công nghệ và tác động của dự án Clean for All thông qua video giới thiệu.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                      <span className="text-gray-700">Công nghệ BRT-3 tiên tiến</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                      <span className="text-gray-700">Giải pháp bền vững cho môi trường</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                      <span className="text-gray-700">Tác động tích cực cho cộng đồng</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="order-1 lg:order-2">
+                <div className="bg-white rounded-xl shadow-lg p-4">
+                  <div className="aspect-video w-full rounded-lg overflow-hidden">
+                    <iframe 
+                      width="100%" 
+                      height="100%" 
+                      src="https://www.youtube.com/embed/HmUMaBXPMyg"
+                      title="Video giới thiệu dự án Clean for All"
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                      📺 Video giới thiệu về dự án Clean for All và chương trình Trường Sạch
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
