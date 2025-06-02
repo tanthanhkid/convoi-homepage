@@ -1,17 +1,53 @@
 'use client';
 
+import { useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLink from '../components/LoadingLink';
-import LoadingButton from '../components/LoadingButton';
 
 export default function TruongSach() {
-  const handleFormSubmit = async (e: any) => {
-    e.preventDefault();
-    // Simulate form processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    alert('Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.');
-  };
+  useEffect(() => {
+    // Load GetFly form script
+    const loadGetFlyForm = () => {
+      const r = window.document.referrer !== "" ? window.document.referrer : window.location.origin;
+      const regex = /(https?:\/\/.*?)\//g; 
+      const furl = regex.exec(r); 
+      let referrer = furl ? furl[0] : r;
+      
+      const f = document.createElement("iframe");
+      const url_string = new URLSearchParams(window.location.search);
+      
+      // Handle UTM parameters
+      const utmParams = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_content', 'utm_term', 'utm_user', 'utm_account'];
+      
+      utmParams.forEach(param => {
+        const cookieMatch = document.cookie.match(new RegExp(param + '=([^;]+)'));
+        if ((!url_string.has(param) || url_string.get(param) === '') && cookieMatch != null) {
+          referrer += "&" + cookieMatch[0];
+        } else { 
+          referrer += url_string.get(param) != null ? `&${param}=` + url_string.get(param) : "";
+        }
+      });
+      
+      referrer += "&full_url=" + encodeURIComponent(window.location.href);
+      
+      f.setAttribute("src", "https://convoi.getflycrm.com/api/forms/viewform?key=9TdyZEuWdlkco6SaY36GQKZAE6z33ddazYcl6XTxxs8jCMPVHi&referrer=" + referrer);
+      f.style.width = "100%";
+      f.style.height = "600px"; // Set a reasonable height
+      f.setAttribute("frameborder", "0");
+      f.setAttribute("marginheight", "0");
+      f.setAttribute("marginwidth", "0");
+      
+      const container = document.getElementById("getfly-optin-form-iframe-1748841527");
+      if (container) {
+        container.innerHTML = ''; // Clear any existing content
+        container.appendChild(f);
+      }
+    };
+
+    // Load the form after component mounts
+    loadGetFlyForm();
+  }, []);
 
   return (
     <>
@@ -57,122 +93,30 @@ export default function TruongSach() {
           </div>
         </section>
 
-        {/* Registration Form Section */}
+        {/* GetFly Form Section */}
         <section className="section-padding">
           <div className="container-padding">
             <div className="max-w-4xl mx-auto">
-              <form className="bg-white rounded-xl shadow-lg p-8">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tên trường học <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Nhập tên trường học"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Cấp học <span className="text-red-500">*</span>
-                    </label>
-                    <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                      <option value="">Chọn cấp học</option>
-                      <option value="mam-non">Mầm non</option>
-                      <option value="tieu-hoc">Tiểu học</option>
-                      <option value="thcs">THCS</option>
-                      <option value="thpt">THPT</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tỉnh/Thành phố <span className="text-red-500">*</span>
-                    </label>
-                    <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                      <option value="">Chọn tỉnh thành</option>
-                      <option value="ha-noi">Hà Nội</option>
-                      <option value="ho-chi-minh">TP. Hồ Chí Minh</option>
-                      <option value="da-nang">Đà Nẵng</option>
-                      <option value="hai-phong">Hải Phòng</option>
-                      <option value="can-tho">Cần Thơ</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Quận/Huyện <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Nhập quận/huyện"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Số học sinh hiện tại <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Nhập số học sinh hiện tại"
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Người liên hệ <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        placeholder="Họ và tên người liên hệ"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Số điện thoại <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        placeholder="Số điện thoại"
-                        required
-                      />
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    Form đăng ký tham gia chương trình
+                  </h2>
+                  <p className="text-gray-600">
+                    Vui lòng điền đầy đủ thông tin để chúng tôi có thể hỗ trợ bạn tốt nhất
+                  </p>
+                </div>
+                
+                {/* GetFly Form Container */}
+                <div id="getfly-optin-form-iframe-1748841527" className="min-h-[500px] w-full">
+                  <div className="flex items-center justify-center h-32">
+                    <div className="text-center">
+                      <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                      <p className="text-gray-600">Đang tải form đăng ký...</p>
                     </div>
                   </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Mô tả tình trạng hiện tại
-                    </label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Mô tả tình trạng nhà vệ sinh hiện tại tại trường..."
-                    ></textarea>
-                  </div>
                 </div>
-
-                <div className="mt-8">
-                  <LoadingButton
-                    type="submit"
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl w-full md:w-auto"
-                    onClick={handleFormSubmit}
-                  >
-                    Đăng ký tham gia chương trình
-                  </LoadingButton>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </section>
