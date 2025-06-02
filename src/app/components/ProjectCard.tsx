@@ -108,7 +108,7 @@ export default function ProjectCard({ project, showDonateButton = true }: Projec
 
         {/* Tiêu đề */}
         <h3 className="font-bold text-gray-900 text-lg leading-tight mb-3 line-clamp-2">
-          {project.id} - {project.title || project.school_name}
+          {project.title || project.school_name}
         </h3>
 
         {/* Thông tin quyên góp */}

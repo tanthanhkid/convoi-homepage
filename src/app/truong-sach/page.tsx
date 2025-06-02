@@ -156,7 +156,7 @@ export default function TruongSach() {
                   </div>
                 )}
                 
-                {metadata && !loading && (
+                {/* {metadata && !loading && (
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,9 +180,9 @@ export default function TruongSach() {
                         : '🔴 Stale'}
                     </div>
                   </div>
-                )}
+                )} */}
                 
-                <button
+                {/* <button
                   onClick={refreshData}
                   disabled={loading}
                   className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white text-sm px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none flex items-center gap-2"
@@ -198,7 +198,7 @@ export default function TruongSach() {
                       <span>Làm mới</span>
                     </>
                   )}
-                </button>
+                </button> */}
               </div>
               
               {error && (

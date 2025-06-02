@@ -8,6 +8,50 @@ let isJobRunning = false;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 phút
 const FETCH_INTERVAL = 10 * 60 * 1000; // 10 phút
 
+// Decode HTML entities
+function decodeHtmlEntities(text: string): string {
+  const entities: { [key: string]: string } = {
+    '&#8211;': '–',  // en dash
+    '&#8212;': '—',  // em dash  
+    '&#8220;': '"',  // left double quotation mark
+    '&#8221;': '"',  // right double quotation mark
+    '&#8216;': '\'',  // left single quotation mark
+    '&#8217;': '\'',  // right single quotation mark
+    '&#8230;': '…',  // horizontal ellipsis
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&apos;': '\'',
+    '&nbsp;': ' ',
+    '&#39;': '\'',
+    '&#x27;': '\'',
+    '&#x2F;': '/',
+    '&#x60;': '`',
+    '&#x3D;': '='
+  };
+
+  let decoded = text;
+  
+  // Decode named entities
+  Object.keys(entities).forEach(entity => {
+    const regex = new RegExp(entity, 'g');
+    decoded = decoded.replace(regex, entities[entity]);
+  });
+  
+  // Decode numeric entities &#number;
+  decoded = decoded.replace(/&#(\d+);/g, (match, number) => {
+    return String.fromCharCode(parseInt(number, 10));
+  });
+  
+  // Decode hex entities &#xhex;
+  decoded = decoded.replace(/&#x([0-9a-f]+);/gi, (match, hex) => {
+    return String.fromCharCode(parseInt(hex, 16));
+  });
+  
+  return decoded.trim();
+}
+
 // Background job để fetch dữ liệu từ sotute.com
 async function fetchSotuteData(): Promise<SotuteProject[]> {
   try {
@@ -48,111 +92,106 @@ function parseProjectFromHTML(html: string): SotuteProject[] {
   const projects: SotuteProject[] = [];
   
   try {
-    if (html.includes('campaign-block')) {
-      console.log('🔍 Tìm thấy campaign blocks trong HTML');
-      
-      const titleMatches = html.match(/<h4 class="title">[\s\S]*?<a[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/g) || [];
-      console.log(`📝 Tìm thấy ${titleMatches.length} titles`);
-      
-      titleMatches.forEach((titleMatch, index) => {
-        try {
-          const titleExtract = titleMatch.match(/<a[^>]*>([^<]+)<\/a>/);
-          const title = titleExtract ? titleExtract[1].trim() : '';
-          
-          if (!title) return;
-          
-          const urlMatch = titleMatch.match(/<a href="([^"]*)"[^>]*>/);
-          const url = urlMatch ? urlMatch[1].trim() : '';
-          
-          // Tạo ID duy nhất bằng cách kết hợp index, timestamp và title hash
-          let id = '';
-          if (url) {
-            const urlParts = url.split('/').filter(Boolean);
-            id = urlParts.pop() || `project_${index}_${Date.now()}`;
-          } else {
-            // Tạo ID từ title nếu không có URL
-            id = title.toLowerCase()
-              .replace(/[^a-z0-9\s]/g, '')
-              .replace(/\s+/g, '-')
-              .substring(0, 50);
-          }
-          
-          // Đảm bảo ID là duy nhất bằng cách thêm index và timestamp
-          id = `${id}_${index}_${Date.now() % 10000}`;
-          
-          const imageMatches = html.match(/<img[^>]*src="([^"]*)"[^>]*>/g) || [];
-          let image_url = '';
-          if (imageMatches.length > 0) {
-            const firstImage = imageMatches[0]?.match(/src="([^"]*)"/);
-            image_url = firstImage ? firstImage[1] : '';
-          }
-          
-          const targetMatches = html.match(/<span class="value-goal">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
-          const raisedMatches = html.match(/<span class="value-raised">[\s\S]*?<bdi>([0-9.,]+)/g) || [];
-          const progressMatches = html.match(/<div class="campaign-percent_raised">([0-9.]+)%<\/div>/g) || [];
-          
-          let target_amount = 0;
-          let raised_amount = 0;
-          let progress_percentage = 0;
-          
-          if (targetMatches.length > 0) {
-            const amountMatch = targetMatches[0]?.match(/([0-9.,]+)/);
-            target_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
-          }
-          
-          if (raisedMatches.length > 0) {
-            const amountMatch = raisedMatches[0]?.match(/([0-9.,]+)/);
-            raised_amount = amountMatch ? parseFloat(amountMatch[1].replace(/[.,]/g, '')) : 0;
-          }
-          
-          if (progressMatches.length > 0) {
-            const percentMatch = progressMatches[0]?.match(/([0-9.]+)/);
-            progress_percentage = percentMatch ? parseFloat(percentMatch[1]) : 0;
-          }
-          
-          const categoriesMatch = html.match(/<span class="posted_in">(.*?)<\/span>/);
-          const categories: string[] = [];
-          if (categoriesMatch) {
-            const categoryLinks = categoriesMatch[1].match(/<a[^>]*rel="tag">([^<]*)<\/a>/g) || [];
-            for (const link of categoryLinks) {
-              const catMatch = link.match(/>([^<]*)</);
-              if (catMatch) categories.push(catMatch[1].trim());
+    // Tìm tất cả campaign-block
+    const campaignBlockRegex = /<div class="campaign-block">([\s\S]*?)<\/div>\s*<\/div>/g;
+    let blockMatch;
+    let index = 0;
+    
+    while ((blockMatch = campaignBlockRegex.exec(html)) !== null) {
+      try {
+        const blockHtml = blockMatch[1];
+        
+        // Parse title và URL
+        const titleMatch = blockHtml.match(/<h4 class="title">[\s\S]*?<a href="([^"]*)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/);
+        if (!titleMatch) continue;
+        
+        const url = titleMatch[1].trim();
+        const rawTitle = titleMatch[2].trim();
+        const title = decodeHtmlEntities(rawTitle);
+        
+        // Parse image URL từ campaign-image
+        const imageMatch = blockHtml.match(/<div class="campaign-image">[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>/);
+        const image_url = imageMatch ? imageMatch[1] : '';
+        
+        // Parse raised amount từ value-raised với cấu trúc woocommerce
+        const raisedMatch = blockHtml.match(/<span class="value-raised">[\s\S]*?<bdi>([0-9.,]+)/);
+        const raised_amount = raisedMatch ? parseFloat(raisedMatch[1].replace(/[.,]/g, '')) : 0;
+        
+        // Parse target amount từ value-goal với cấu trúc woocommerce  
+        const targetMatch = blockHtml.match(/<span class="value-goal">[\s\S]*?<bdi>([0-9.,]+)/);
+        const target_amount = targetMatch ? parseFloat(targetMatch[1].replace(/[.,]/g, '')) : 0;
+        
+        // Parse progress percentage
+        const progressMatch = blockHtml.match(/<div class="campaign-percent_raised">([0-9.]+)%<\/div>/);
+        const progress_percentage = progressMatch ? parseFloat(progressMatch[1]) : 0;
+        
+        // Parse days remaining
+        const daysMatch = blockHtml.match(/<span class="info-value time-remaining-desc">(\d+)<\/span>/);
+        const days_remaining = daysMatch ? parseInt(daysMatch[1]) : 0;
+        
+        // Parse categories
+        const categoriesMatch = blockHtml.match(/<span class="posted_in">(.*?)<\/span>/);
+        const categories: string[] = [];
+        if (categoriesMatch) {
+          const categoryLinks = categoriesMatch[1].match(/<a[^>]*rel="tag">([^<]*)<\/a>/g) || [];
+          for (const link of categoryLinks) {
+            const catMatch = link.match(/>([^<]*)</);
+            if (catMatch) {
+              categories.push(decodeHtmlEntities(catMatch[1].trim()));
             }
           }
-          
-          const daysMatch = html.match(/<span class="info-value time-remaining-desc">(\d+)<\/span>/);
-          const days_remaining = daysMatch ? parseInt(daysMatch[1]) : 0;
-          
-          let status: 'active' | 'completed' | 'pending' = 'active';
-          if (categories.some(cat => cat.includes('Đã hoàn thành'))) {
-            status = 'completed';
-          } else if (progress_percentage < 10) {
-            status = 'pending';
-          }
-          
-          if (title && target_amount > 0) {
-            projects.push({
-              id,
-              title,
-              description: '',
-              school_name: extractSchoolName(title),
-              location: extractLocation(title),
-              target_amount,
-              raised_amount,
-              progress_percentage,
-              status,
-              image_url,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-              url,
-              categories,
-              days_remaining
-            });
-          }
-        } catch (error) {
-          console.error('❌ Lỗi parse project individual:', error);
         }
-      });
+        
+        // Tạo ID duy nhất
+        let id = '';
+        if (url) {
+          const urlParts = url.split('/').filter(Boolean);
+          id = urlParts.pop() || `project_${index}_${Date.now()}`;
+        } else {
+          id = title.toLowerCase()
+            .replace(/[^a-z0-9\s]/g, '')
+            .replace(/\s+/g, '-')
+            .substring(0, 50);
+        }
+        
+        // Đảm bảo ID là duy nhất
+        id = `${id}_${index}_${Date.now() % 10000}`;
+        
+        // Xác định status dựa vào progress và categories
+        let status: 'active' | 'completed' | 'pending' = 'active';
+        if (progress_percentage >= 100 || categories.some(cat => cat.includes('hoàn thành'))) {
+          status = 'completed';
+        } else if (progress_percentage < 10) {
+          status = 'pending';
+        }
+        
+        // Chỉ thêm project nếu có đủ thông tin cơ bản
+        if (title && target_amount > 0) {
+          projects.push({
+            id,
+            title,
+            description: '',
+            school_name: extractSchoolName(title),
+            location: extractLocation(title),
+            target_amount,
+            raised_amount,
+            progress_percentage,
+            status,
+            image_url,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            url,
+            categories,
+            days_remaining
+          });
+          
+          console.log(`✅ Parsed project: ${title} - Target: ${target_amount.toLocaleString()}đ - Raised: ${raised_amount.toLocaleString()}đ - Progress: ${progress_percentage}% - Days: ${days_remaining}`);
+        }
+        
+        index++;
+      } catch (error) {
+        console.error('❌ Lỗi parse project individual:', error);
+      }
     }
   } catch (error) {
     console.error('❌ Lỗi parse HTML từ sotute.com:', error);
