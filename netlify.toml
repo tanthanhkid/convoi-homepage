@@ -6,4 +6,11 @@
   package = "@netlify/plugin-nextjs"
 
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP_EDGE = "true" 
+  NODE_VERSION = "18"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "frame-ancestors 'none'" 

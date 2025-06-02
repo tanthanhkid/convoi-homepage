@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import LoadingLink from './LoadingLink';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,7 +27,7 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+            <LoadingLink href="/" className="flex items-center">
               <Image
                 src="/logo.png"
                 alt="Convoi Logo"
@@ -36,20 +36,20 @@ const Header = () => {
                 className="h-10 w-auto"
               />
               <span className="ml-3 text-xl font-bold text-green-700">Convoi</span>
-            </Link>
+            </LoadingLink>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navigation.slice(0, 6).map((item) => (
-                <Link
+                <LoadingLink
                   key={item.name}
                   href={item.href}
                   className="text-gray-700 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   {item.name}
-                </Link>
+                </LoadingLink>
               ))}
               {/* Dropdown for more items */}
               <div className="relative group">
@@ -62,13 +62,13 @@ const Header = () => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <div className="py-2">
                     {navigation.slice(6).map((item) => (
-                      <Link
+                      <LoadingLink
                         key={item.name}
                         href={item.href}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700"
                       >
                         {item.name}
-                      </Link>
+                      </LoadingLink>
                     ))}
                   </div>
                 </div>
@@ -78,9 +78,9 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link href="/truong-sach" className="btn-primary">
+            <LoadingLink href="/truong-sach" className="btn-primary">
               Tham gia ngay
-            </Link>
+            </LoadingLink>
           </div>
 
           {/* Mobile menu button */}
@@ -105,18 +105,18 @@ const Header = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
               {navigation.map((item) => (
-                <Link
+                <LoadingLink
                   key={item.name}
                   href={item.href}
                   className="text-gray-700 hover:text-green-700 block px-3 py-2 rounded-md text-base font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </Link>
+                </LoadingLink>
               ))}
-              <Link href="/truong-sach" className="btn-primary w-full text-center block mt-4">
+              <LoadingLink href="/truong-sach" className="btn-primary w-full text-center block mt-4">
                 Tham gia ngay
-              </Link>
+              </LoadingLink>
             </div>
           </div>
         )}

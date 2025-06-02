@@ -1,6 +1,6 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Link from 'next/link';
+import LoadingLink from './components/LoadingLink';
 import Image from 'next/image';
 
 export default function Home() {
@@ -24,30 +24,33 @@ export default function Home() {
                 Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/truong-sach" className="btn-primary bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold">
+                <LoadingLink href="/truong-sach" className="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center">
                   Đăng ký trường học
-                </Link>
-                <Link href="/quyen-gop" className="btn-secondary border-white text-white hover:bg-white hover:text-green-700">
+                </LoadingLink>
+                <LoadingLink href="/quyen-gop" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-center">
                   Quyên góp ngay
-                </Link>
+                </LoadingLink>
               </div>
             </div>
             
-            {/* Video Placeholder */}
+            {/* YouTube Video */}
             <div className="bg-white rounded-xl shadow-2xl p-8">
-              <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center mb-6">
-                <div className="text-center">
-                  <svg className="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a4.5 4.5 0 010 9H9m3-9a4.5 4.5 0 010 9m1.5-9H15" />
-                  </svg>
-                  <p className="text-gray-600">Video INTRO giới thiệu Chương trình TRƯỜNG SẠCH</p>
-                </div>
+              <div className="aspect-video rounded-lg overflow-hidden mb-6">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/yKNzPTOC1jE"
+                  title="Video INTRO giới thiệu Chương trình TRƯỜNG SẠCH"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Nhân vật trong video:</h3>
-                <p className="text-gray-600 text-sm">
-                  Phụ huynh Nam • Phụ Huynh Nữ • Thầy Hiệu trưởng • Cô giáo • Ông nội • Bà ngoại • 
-                  Học sinh nam tiểu học • Học sinh nữ THCS • Học sinh nữ PTTH • Staff CON VOI • Staff Eduz
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Video INTRO giới thiệu Chương trình TRƯỜNG SẠCH</h3>
+                <p className="text-green-600 text-sm">
+                  Tìm hiểu về sứ mệnh và hoạt động của Con Voi trong việc cải thiện môi trường giáo dục
                 </p>
               </div>
             </div>
@@ -67,9 +70,9 @@ export default function Home() {
                 Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường. 
                 Chúng tôi cam kết mang đến môi trường học tập an toàn và vệ sinh cho tất cả học sinh Việt Nam.
               </p>
-              <Link href="/truong-sach" className="btn-primary">
+              <LoadingLink href="/truong-sach" className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
                 Tìm hiểu thêm
-              </Link>
+              </LoadingLink>
             </div>
             <div className="relative">
               <div className="bg-white rounded-xl shadow-lg p-8">
@@ -111,9 +114,9 @@ export default function Home() {
                 Nhà tài trợ chiến lược cho Chương trình TRƯỜNG SẠCH. 
                 Mỗi lần mua sắm trên Happy Market, bạn đã góp phần giúp các em học sinh có nhà vệ sinh sạch hơn.
               </p>
-              <Link href="/happy-market" className="btn-primary bg-orange-600 hover:bg-orange-700">
+              <LoadingLink href="/happy-market" className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
                 Mua sắm trong hạnh phúc
-              </Link>
+              </LoadingLink>
             </div>
           </div>
         </div>
@@ -131,7 +134,7 @@ export default function Home() {
                 Nền tảng quyên góp trực tuyến hỗ trợ học sinh. 
                 Chúng tôi giúp biến ước mơ của các em có nhà vệ sinh sạch thành hiện thực.
               </p>
-              <a href="#" className="btn-primary bg-purple-600 hover:bg-purple-700">
+              <a href="#" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
                 Biến ước mơ thành hiện thực
               </a>
             </div>
@@ -190,12 +193,12 @@ export default function Home() {
             Mỗi đóng góp của bạn đều có ý nghĩa to lớn trong việc mang đến môi trường học tập tốt hơn cho các em học sinh.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/truong-sach" className="btn-primary bg-white text-green-700 hover:bg-gray-100">
+            <LoadingLink href="/truong-sach" className="bg-white text-green-700 hover:bg-gray-100 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
               Đăng ký trường học
-            </Link>
-            <Link href="/quyen-gop" className="btn-secondary border-white text-white hover:bg-white hover:text-green-700">
+            </LoadingLink>
+            <LoadingLink href="/quyen-gop" className="border-2 border-white text-white hover:bg-white hover:text-green-700 font-semibold px-8 py-4 rounded-lg transition-all duration-200">
               Quyên góp hỗ trợ
-            </Link>
+            </LoadingLink>
           </div>
         </div>
       </section>
