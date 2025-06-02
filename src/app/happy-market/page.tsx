@@ -80,52 +80,7 @@ export default function HappyMarket() {
           </div>
         </div>
       </section>
-
-      {/* Impact Calculator */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-padding">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Tính toán tác động của bạn</h2>
-              <p className="text-lg text-gray-700">
-                Xem bạn có thể giúp được bao nhiêu học sinh thông qua việc mua sắm
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <label className="block text-lg font-medium text-gray-700 mb-4">
-                    Số tiền bạn dự định mua sắm (VNĐ):
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="2,000,000"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  />
-                  <p className="text-sm text-gray-600 mt-2">
-                    Mỗi 2 triệu = 1 học sinh được hỗ trợ
-                  </p>
-                </div>
-
-                <div className="text-center">
-                  <div className="bg-orange-100 rounded-lg p-6">
-                    <div className="text-4xl mb-2">🎓</div>
-                    <div className="text-3xl font-bold text-orange-600 mb-2">1</div>
-                    <div className="text-gray-700">Học sinh được hỗ trợ</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 text-center">
-                <a href="#" className="btn-primary bg-orange-600 hover:bg-orange-700 text-lg px-8 py-4">
-                  Bắt đầu mua sắm ngay
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+ 
 
       {/* Product Categories */}
       <section className="section-padding">
@@ -157,54 +112,7 @@ export default function HappyMarket() {
           </div>
         </div>
       </section>
-
-      {/* School Selection */}
-      <section className="section-padding bg-blue-50">
-        <div className="container-padding">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Chọn trường để ủng hộ</h2>
-              <p className="text-lg text-gray-700">
-                Bạn có thể chỉ định trường học cụ thể để nhận khoản hỗ trợ từ việc mua sắm của mình
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <div className="grid md:grid-cols-3 gap-6">
-                {[
-                  { name: 'THCS Mường Lay', location: 'Điện Biên', need: '85 triệu', raised: '60%' },
-                  { name: 'TH Bắc Hà', location: 'Lào Cai', need: '92 triệu', raised: '45%' },
-                  { name: 'THPT Mù Cang Chải', location: 'Yên Bái', need: '78 triệu', raised: '30%' },
-                ].map((school, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 transition-colors cursor-pointer">
-                    <h3 className="font-semibold text-gray-900 mb-2">{school.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{school.location}</p>
-                    <p className="text-sm text-gray-700 mb-3">Cần: {school.need}</p>
-                    <div className="mb-3">
-                      <div className="bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full" 
-                          style={{width: school.raised}}
-                        ></div>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">Đã đạt: {school.raised}</p>
-                    </div>
-                    <button className="btn-secondary w-full text-sm py-2">
-                      Chọn trường này
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 text-center">
-                <Link href="/truong-sach" className="text-blue-600 hover:text-blue-700 font-medium">
-                  Xem tất cả các trường cần hỗ trợ →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+ 
 
       {/* CTA Section */}
       <section className="section-padding bg-gradient-to-r from-orange-600 to-red-600">
@@ -217,12 +125,10 @@ export default function HappyMarket() {
             tạo nên tương lai tốt đẹp cho các em học sinh.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="btn-primary bg-white text-orange-700 hover:bg-gray-100 text-lg px-8 py-4">
+            <a href="https://happymarket.vn" target="_blank" className="btn-primary bg-white text-orange-700 hover:bg-gray-100 text-lg px-8 py-4">
               Mua sắm trong hạnh phúc
             </a>
-            <Link href="/truong-sach" className="btn-secondary border-white text-white hover:bg-white hover:text-orange-700">
-              Tìm hiểu thêm về chương trình
-            </Link>
+           
           </div>
         </div>
       </section>

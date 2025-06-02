@@ -68,13 +68,14 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="aspect-video bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="mx-auto h-16 w-16 text-orange-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                    <p className="text-orange-700 font-semibold">Happy Market</p>
-                  </div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <Image
+                    src="/HAPPY-MARKET1.png"
+                    alt="Happy Market Logo"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -112,13 +113,14 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="aspect-video bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="mx-auto h-16 w-16 text-purple-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                    <p className="text-purple-700 font-semibold">SOTUTE Platform</p>
-                  </div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <Image
+                    src="/Logo-SOTUTE.webp"
+                    alt="SOTUTE Logo"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
             </div>
