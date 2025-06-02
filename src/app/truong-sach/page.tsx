@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLink from '../components/LoadingLink';
@@ -16,10 +16,45 @@ export default function TruongSach() {
     metadata 
   } = useSotuteData();
 
+  // State cho pagination
+  const [visibleCount, setVisibleCount] = useState(4); // Mặc định hiển thị 4 cards (desktop)
+  const [isMobile, setIsMobile] = useState(false);
+
   // Tính toán derived data từ projects
   const activeProjects = projects.filter(p => p.status === 'active');
   const pendingProjects = projects.filter(p => p.status === 'pending');
   const completedProjects = projects.filter(p => p.status === 'completed');
+
+  // Kiểm tra screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mobile = window.innerWidth < 768; // md breakpoint
+      setIsMobile(mobile);
+      // Reset visible count khi change screen size
+      setVisibleCount(mobile ? 2 : 4);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Reset visible count khi có projects mới
+  useEffect(() => {
+    if (projects.length > 0) {
+      setVisibleCount(isMobile ? 2 : 4);
+    }
+  }, [projects.length, isMobile]);
+
+  // Function để load more projects
+  const loadMore = () => {
+    const increment = isMobile ? 2 : 4;
+    setVisibleCount(prev => Math.min(prev + increment, projects.length));
+  };
+
+  // Projects để hiển thị (slice theo visibleCount)
+  const visibleProjects = projects.slice(0, visibleCount);
+  const hasMore = visibleCount < projects.length;
 
   useEffect(() => {
     // Load GetFly form script
@@ -284,14 +319,54 @@ export default function TruongSach() {
                 </button>
               </div>
             ) : (
-              /* Masonry layout - hiển thị tất cả dự án */
-              <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-                {projects.map((project, index) => (
-                  <div key={`${project.id}_${index}`} className="masonry-item">
-                    <ProjectCard project={project} />
+              /* Masonry layout với pagination */
+              <>
+                <div className="masonry-container columns-1 md:columns-2 lg:columns-3 xl:columns-4">
+                  {visibleProjects.map((project, index) => (
+                    <div key={`${project.id}_${index}`} className="masonry-item">
+                      <ProjectCard project={project} />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Nút Xem thêm */}
+                {hasMore && (
+                  <div className="text-center mt-12">
+                    <button
+                      onClick={loadMore}
+                      className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>Xem thêm dự án</span>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </span>
+                    </button>
+                    <p className="text-sm text-gray-500 mt-3">
+                      Hiển thị {visibleCount} / {projects.length} dự án
+                    </p>
                   </div>
-                ))}
-              </div>
+                )}
+
+                {/* Show all button khi đã xem hết */}
+                {!hasMore && projects.length > (isMobile ? 2 : 4) && (
+                  <div className="text-center mt-12">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="text-gray-600">
+                        <span className="text-lg">🎉</span>
+                        <span className="ml-2">Bạn đã xem hết tất cả {projects.length} dự án</span>
+                      </div>
+                      <button
+                        onClick={() => setVisibleCount(isMobile ? 2 : 4)}
+                        className="text-green-600 hover:text-green-700 font-medium text-sm transition-colors duration-200"
+                      >
+                        ↑ Thu gọn về đầu
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>

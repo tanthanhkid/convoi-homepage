@@ -99,12 +99,7 @@ export default function ProjectCard({ project, showDonateButton = true }: Projec
       </div>
 
       {/* Nội dung */}
-      <div className="p-4">
-        {/* Thời gian còn lại */}
-        <div className="flex items-center gap-1 text-sm text-gray-600 mb-3">
-          <span className="text-orange-500">⏰</span>
-          <span>{project.days_remaining || 0} Ngày còn lại</span>
-        </div>
+      <div className="p-4"> 
 
         {/* Tiêu đề */}
         <h3 className="font-bold text-gray-900 text-lg leading-tight mb-3 line-clamp-2">
