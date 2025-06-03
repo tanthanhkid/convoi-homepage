@@ -13,6 +13,7 @@ const Header = () => {
     { name: 'Về Con Voi', href: '/about' },
     { name: 'Đội ngũ', href: '/doi-ngu' },
     { name: 'Tầm nhìn & Sứ mệnh', href: '/tam-nhin-su-menh' },
+    { name: 'Giá trị cộng đồng', href: '/gia-tri-cong-dong' },
   ];
 
   const navigation = [
