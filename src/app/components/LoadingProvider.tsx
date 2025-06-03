@@ -27,6 +27,7 @@ interface LoadingProviderProps {
 export default function LoadingProvider({ children }: LoadingProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [previousPathname, setPreviousPathname] = useState('');
   const pathname = usePathname();
 
   const setLoading = (loading: boolean) => {
@@ -36,6 +37,7 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
   const startLoading = () => {
     setIsNavigating(true);
     setIsLoading(true);
+    setPreviousPathname(pathname);
   };
 
   const stopLoading = () => {
@@ -43,20 +45,44 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
     setIsNavigating(false);
   };
 
-  // Auto handle route changes với thời gian tối ưu
+  // Handle route changes - chỉ tắt loading khi DOM đã render xong
   useEffect(() => {
-    // Chỉ hiện loading nếu đang navigate
-    if (isNavigating) {
-      const timer = setTimeout(() => {
-        stopLoading();
-      }, 100); // Giảm từ 300ms xuống 100ms cho trải nghiệm nhanh hơn
+    if (isNavigating && pathname !== previousPathname) {
+      // Sử dụng requestIdleCallback hoặc fallback setTimeout để đợi DOM render xong
+      const handlePageLoad = () => {
+        if (typeof window !== 'undefined') {
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => {
+              stopLoading();
+            }, { timeout: 1000 });
+          } else {
+            // Fallback cho browsers không support requestIdleCallback
+            setTimeout(() => {
+              stopLoading();
+            }, 300);
+          }
+        }
+      };
 
-      return () => clearTimeout(timer);
-    } else {
-      // Tự động dừng loading khi route đã thay đổi
+      // Đợi một tick để đảm bảo component mới đã mount
+      setTimeout(handlePageLoad, 50);
+    } else if (!isNavigating) {
+      // Reset nếu không đang navigate
       stopLoading();
     }
-  }, [pathname, isNavigating]);
+  }, [pathname, isNavigating, previousPathname]);
+
+  // Cleanup loading state nếu bị stuck
+  useEffect(() => {
+    if (isLoading) {
+      const maxLoadingTime = setTimeout(() => {
+        console.warn('Loading exceeded maximum time, auto-stopping');
+        stopLoading();
+      }, 5000); // Maximum 5 seconds loading
+
+      return () => clearTimeout(maxLoadingTime);
+    }
+  }, [isLoading]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading, startLoading, stopLoading }}>

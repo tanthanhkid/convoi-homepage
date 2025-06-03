@@ -5,9 +5,13 @@ import Footer from './components/Footer';
 import LoadingLink from './components/LoadingLink';
 import ProjectCard from './components/ProjectCard';
 import { useSotuteData } from './hooks/useSotuteData';
+import { usePageLoad } from './hooks/usePageLoad';
 import Image from 'next/image';
 
 export default function Home() {
+  // Đảm bảo tắt loading khi trang đã load xong
+  usePageLoad();
+
   return (
     <>
       <Header />
