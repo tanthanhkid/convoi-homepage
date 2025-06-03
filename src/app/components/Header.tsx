@@ -14,6 +14,7 @@ const Header = () => {
     { name: 'Đội ngũ', href: '/doi-ngu' },
     { name: 'Tầm nhìn & Sứ mệnh', href: '/tam-nhin-su-menh' },
     { name: 'Giá trị cộng đồng', href: '/gia-tri-cong-dong' },
+    { name: 'Chứng nhận tiêu chuẩn', href: '/chung-nhan' },
   ];
 
   const navigation = [

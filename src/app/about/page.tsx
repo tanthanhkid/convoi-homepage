@@ -456,7 +456,7 @@ export default function About() {
               <div className="text-center">
                 <div className="bg-white rounded-xl p-8 shadow-lg">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                    🎯 Kế hoạch mở rộng năm học 2024-2025
+                    🎯 Kế hoạch mở rộng năm học 2024-2029
                   </h3>
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="text-center">
