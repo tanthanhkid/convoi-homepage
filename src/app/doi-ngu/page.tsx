@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Image from 'next/image';
 
 export default function DoiNgu() {
   return (
@@ -38,8 +39,14 @@ export default function DoiNgu() {
                 {/* Ông Lương Ngọc Trung */}
                 <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      LT
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-orange-500">
+                      <Image
+                        src="/avt/avt-trung.jpg"
+                        alt="Ông Lương Ngọc Trung"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Ông LƯƠNG NGỌC TRUNG</h3>
@@ -107,8 +114,14 @@ export default function DoiNgu() {
                 {/* Bà Trần Tuệ Như */}
                 <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      TN
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-pink-500">
+                      <Image
+                        src="/avt/avt-tue-nhu.png"
+                        alt="Bà Trần Tuệ Như"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Bà TRẦN TUỆ NHƯ</h3>
