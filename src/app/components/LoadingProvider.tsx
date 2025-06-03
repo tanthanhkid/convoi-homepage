@@ -101,7 +101,7 @@ function LoadingScreen() {
         <div className="mb-6">
           <div className="w-20 h-20 mx-auto animate-spin">
             <img 
-              src="/logo.png" 
+              src="/favicon.png" 
               alt="Convoi" 
               width={80} 
               height={80}
@@ -111,7 +111,7 @@ function LoadingScreen() {
         </div>
 
         {/* Text đơn giản */}
-        <h3 className="text-lg font-semibold text-green-700 mb-2">Convoi</h3>
+        {/* <h3 className="text-lg font-semibold text-green-700 mb-2">Convoi</h3> */}
         <p className="text-sm text-gray-600">Đang tải trang...</p>
       </div>
     </div>
