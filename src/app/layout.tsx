@@ -21,10 +21,17 @@ export const metadata: Metadata = {
   title: "Convoi - Chương trình Trường Sạch",
   description: "Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường",
   keywords: "Convoi, Trường Sạch, nhà vệ sinh, giáo dục, CSR, BRT-3",
+  manifest: '/site.webmanifest',
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
   },
 };
 
@@ -35,12 +42,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <link rel="preload" href="/favicon.png" as="image" type="image/png" />
-      </head>
       <body
         className={`${geist.variable} ${geistMono.variable} antialiased font-sans`}
       >
