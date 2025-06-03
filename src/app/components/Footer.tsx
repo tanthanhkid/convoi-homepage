@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
               <Image
-                src="/logo.png"
+                src="/favicon.png"
                 alt="Convoi Logo"
                 width={40}
                 height={40}

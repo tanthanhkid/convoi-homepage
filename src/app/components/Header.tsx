@@ -24,7 +24,7 @@ const Header = () => {
           <div className="flex-shrink-0">
             <LoadingLink href="/" className="flex items-center">
               <Image
-                src="/logo.png"
+                src="/favicon.png"
                 alt="Convoi Logo"
                 width={40}
                 height={40}
