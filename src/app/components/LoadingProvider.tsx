@@ -97,22 +97,22 @@ function LoadingScreen() {
   return (
     <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9999] flex items-center justify-center">
       <div className="text-center">
-        {/* Logo đơn giản hơn */}
+        {/* Logo với animation xoay */}
         <div className="mb-6">
-          <div className="w-16 h-16 mx-auto bg-green-600 rounded-full flex items-center justify-center">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
+          <div className="w-20 h-20 mx-auto animate-spin">
+            <img 
+              src="/logo.png" 
+              alt="Convoi" 
+              width={80} 
+              height={80}
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
 
         {/* Text đơn giản */}
         <h3 className="text-lg font-semibold text-green-700 mb-2">Convoi</h3>
-        
-        {/* Spinner đơn giản và nhanh */}
-        <div className="flex justify-center">
-          <div className="w-8 h-8 border-2 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
-        </div>
+        <p className="text-sm text-gray-600">Đang tải trang...</p>
       </div>
     </div>
   );
