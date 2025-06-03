@@ -1,44 +1,27 @@
+'use client';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function ChungNhan() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const chungNhanList = [
     {
       id: 1,
       title: "Chứng nhận Tiêu chuẩn Vệ sinh An toàn Thực phẩm",
       image: "/chungnhan/90933266-chung-nhan-1.jpg",
       category: "An toàn Thực phẩm",
-      issuer: "Cơ quan Chứng nhận Quốc gia",
-      issueDate: "2023",
-      validUntil: "2026",
-      description: "Chứng nhận đảm bảo an toàn vệ sinh thực phẩm theo tiêu chuẩn quốc gia, xác nhận rằng các sản phẩm và dịch vụ của chúng tôi đáp ứng đầy đủ các yêu cầu nghiêm ngặt về vệ sinh và an toàn.",
-      features: [
-        "Đảm bảo 100% an toàn cho sức khỏe con người",
-        "Tuân thủ nghiêm ngặt quy chuẩn quốc gia về vệ sinh",
-        "Quy trình sản xuất được kiểm soát chặt chẽ",
-        "Nguyên liệu và thành phẩm được kiểm nghiệm định kỳ"
-      ],
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "from-blue-50 to-cyan-100"
+      color: "from-blue-500 to-cyan-500"
     },
     {
       id: 2,
       title: "Chứng nhận Chất lượng Sản phẩm Công nghiệp",
       image: "/chungnhan/71124171-chung-nhan-2.jpg", 
       category: "Chất lượng Sản phẩm",
-      issuer: "Tổ chức Tiêu chuẩn Chất lượng",
-      issueDate: "2023",
-      validUntil: "2026",
-      description: "Chứng nhận chất lượng sản phẩm công nghiệp xác nhận rằng các sản phẩm làm sạch BRT-3 của chúng tôi đạt tiêu chuẩn chất lượng cao nhất trong ngành công nghiệp vệ sinh.",
-      features: [
-        "Hiệu quả làm sạch vượt trội, loại bỏ 99.9% vi khuẩn",
-        "Công nghệ tiên tiến, thân thiện với môi trường",
-        "Được kiểm định bởi các phòng thí nghiệm uy tín",
-        "Đáp ứng tiêu chuẩn chất lượng quốc tế"
-      ],
-      color: "from-emerald-500 to-teal-500",
-      bgColor: "from-emerald-50 to-teal-100"
+      color: "from-emerald-500 to-teal-500"
     }
   ];
 
@@ -114,7 +97,7 @@ export default function ChungNhan() {
           </div>
         </section>
 
-        {/* Certificates Display */}
+        {/* Certificates Gallery */}
         <section className="section-padding bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="container-padding">
             <div className="max-w-7xl mx-auto">
@@ -124,86 +107,95 @@ export default function ChungNhan() {
                   Chứng nhận đạt được
                 </h2>
                 <p className="text-xl text-gray-600">
-                  Các chứng nhận uy tín khẳng định chất lượng và độ tin cậy
+                  Nhấp vào ảnh để xem chi tiết
                 </p>
               </div>
 
-              <div className="space-y-16">
-                {chungNhanList.map((cert, index) => (
-                  <div key={cert.id} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
-                    {/* Certificate Image */}
-                    <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                      <div className="bg-white rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-shadow duration-300">
-                        <div className="aspect-[3/4] relative rounded-2xl overflow-hidden">
-                          <Image
-                            src={cert.image}
-                            alt={cert.title}
-                            fill
-                            className="object-cover hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      </div>
+              {/* Certificate Images Grid */}
+              <div className="grid gap-8">
+                {chungNhanList.map((cert) => (
+                  <div key={cert.id} className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    {/* Category Badge */}
+                    <div className="mb-4">
+                      <span className={`inline-block px-4 py-2 bg-gradient-to-r ${cert.color} text-white rounded-full text-sm font-semibold`}>
+                        {cert.category}
+                      </span>
                     </div>
+                    
+                    {/* Certificate Title */}
+                    <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-6">
+                      {cert.title}
+                    </h3>
 
-                    {/* Certificate Details */}
-                    <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                      <div className={`bg-gradient-to-br ${cert.bgColor} rounded-3xl p-8 shadow-lg border border-white/50`}>
-                        {/* Header */}
-                        <div className="mb-6">
-                          <div className={`inline-block px-4 py-2 bg-gradient-to-r ${cert.color} text-white rounded-full text-sm font-semibold mb-4`}>
-                            {cert.category}
-                          </div>
-                          <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                            {cert.title}
-                          </h3>
-                          <p className="text-gray-700 leading-relaxed text-lg">
-                            {cert.description}
-                          </p>
-                        </div>
-
-                        {/* Certificate Info */}
-                        <div className="grid md:grid-cols-2 gap-4 mb-6">
-                          <div>
-                            <div className="text-sm text-gray-600 font-medium">Cơ quan cấp</div>
-                            <div className="text-gray-900 font-semibold">{cert.issuer}</div>
-                          </div>
-                          <div>
-                            <div className="text-sm text-gray-600 font-medium">Năm cấp</div>
-                            <div className="text-gray-900 font-semibold">{cert.issueDate}</div>
-                          </div>
-                          <div>
-                            <div className="text-sm text-gray-600 font-medium">Hiệu lực đến</div>
-                            <div className="text-gray-900 font-semibold">{cert.validUntil}</div>
-                          </div>
-                          <div>
-                            <div className="text-sm text-gray-600 font-medium">Trạng thái</div>
-                            <div className="text-green-600 font-semibold flex items-center">
-                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                              Còn hiệu lực
+                    {/* Certificate Image */}
+                    <div 
+                      className="relative rounded-2xl overflow-hidden cursor-pointer group shadow-lg hover:shadow-xl transition-all duration-300"
+                      onClick={() => setSelectedImage(cert.image)}
+                    >
+                      <div className="aspect-[16/10] relative">
+                        <Image
+                          src={cert.image}
+                          alt={cert.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="bg-white bg-opacity-90 rounded-full p-3">
+                              <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                              </svg>
                             </div>
                           </div>
                         </div>
-
-                        {/* Features */}
-                        <div>
-                          <h4 className="text-lg font-bold text-gray-900 mb-4">Đặc điểm nổi bật:</h4>
-                          <div className="space-y-3">
-                            {cert.features.map((feature, idx) => (
-                              <div key={idx} className="flex items-start">
-                                <div className={`w-2 h-2 bg-gradient-to-r ${cert.color} rounded-full mr-3 mt-2 flex-shrink-0`}></div>
-                                <p className="text-gray-700 leading-relaxed">{feature}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
                       </div>
                     </div>
+
+                    {/* Click hint */}
+                    <p className="text-center text-gray-500 text-sm mt-4">
+                      🔍 Nhấp để phóng to và xem chi tiết
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </section>
+
+        {/* Lightbox Modal */}
+        {selectedImage && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedImage(null)}
+          >
+            <div className="relative max-w-7xl max-h-full">
+              {/* Close button */}
+              <button 
+                onClick={() => setSelectedImage(null)}
+                className="absolute -top-12 right-0 text-white hover:text-gray-300 text-2xl font-bold z-60"
+              >
+                ✕ Đóng
+              </button>
+              
+              {/* Image */}
+              <div className="relative w-full h-full">
+                <Image
+                  src={selectedImage}
+                  alt="Chứng nhận phóng to"
+                  width={1200}
+                  height={800}
+                  className="object-contain max-w-full max-h-[80vh] rounded-lg shadow-2xl"
+                />
+              </div>
+              
+              {/* Navigation hint */}
+              <p className="text-white text-center mt-4 text-sm">
+                Nhấp vào vùng tối để đóng
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Standards Compliance */}
         <section className="section-padding bg-white">
