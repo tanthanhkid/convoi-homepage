@@ -305,7 +305,7 @@ export default function About() {
         </section>
 
         {/* Lĩnh vực ứng dụng */}
-        <section className="section-padding bg-white">
+        {/* <section className="section-padding bg-white">
           <div className="container-padding">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
@@ -373,7 +373,7 @@ export default function About() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Giá trị đề xuất */}
         <section className="section-padding bg-gradient-to-br from-blue-50 to-blue-100">
@@ -430,7 +430,7 @@ export default function About() {
                 </div>
 
                 {/* Phân khúc đối tượng */}
-                <div className="bg-white rounded-xl p-8 shadow-lg">
+                {/* <div className="bg-white rounded-xl p-8 shadow-lg">
                   <h3 className="text-2xl font-bold text-purple-800 mb-6 flex items-center">
                     <span className="text-3xl mr-3">🎯</span>
                     C. Phân khúc đối tượng mục tiêu và giá trị đề xuất chi tiết
@@ -497,7 +497,7 @@ export default function About() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
