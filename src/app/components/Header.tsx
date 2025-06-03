@@ -24,6 +24,7 @@ const Header = () => {
       hasDropdown: true,
       dropdownItems: aboutDropdownItems
     },
+    { name: 'Quy trình làm việc', href: '/quy-trinh' },
     { name: 'Chương trình Trường Sạch', href: '/truong-sach' },
     { name: 'Happy Market', href: '/happy-market' },
     { name: 'Liên hệ', href: '/lien-he' },

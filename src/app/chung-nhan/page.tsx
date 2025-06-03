@@ -11,14 +11,14 @@ export default function ChungNhan() {
   const chungNhanList = [
     {
       id: 1,
-      title: "Chứng nhận Tiêu chuẩn Vệ sinh An toàn Thực phẩm",
+      title: "",
       image: "/chungnhan/90933266-chung-nhan-1.jpg",
-      category: "An toàn Thực phẩm",
+      category: "Bản quyền",
       color: "from-blue-500 to-cyan-500"
     },
     {
       id: 2,
-      title: "Chứng nhận Chất lượng Sản phẩm Công nghiệp",
+      title: "",
       image: "/chungnhan/71124171-chung-nhan-2.jpg", 
       category: "Chất lượng Sản phẩm",
       color: "from-emerald-500 to-teal-500"
@@ -71,31 +71,7 @@ export default function ChungNhan() {
           </div>
         </section>
 
-        {/* Achievements Stats */}
-        <section className="section-padding bg-white">
-          <div className="container-padding">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid md:grid-cols-4 gap-6 mb-16">
-                <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">10+</div>
-                  <p className="text-gray-700 font-medium">Chứng nhận uy tín</p>
-                </div>
-                <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl">
-                  <div className="text-3xl font-bold text-green-600 mb-2">99.9%</div>
-                  <p className="text-gray-700 font-medium">Hiệu quả diệt khuẩn</p>
-                </div>
-                <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">100%</div>
-                  <p className="text-gray-700 font-medium">An toàn sức khỏe</p>
-                </div>
-                <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl">
-                  <div className="text-3xl font-bold text-orange-600 mb-2">5+</div>
-                  <p className="text-gray-700 font-medium">Năm kinh nghiệm</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+         
 
         {/* Certificates Gallery */}
         <section className="section-padding bg-gradient-to-br from-gray-50 to-gray-100">
@@ -197,37 +173,7 @@ export default function ChungNhan() {
           </div>
         )}
 
-        {/* Standards Compliance */}
-        <section className="section-padding bg-white">
-          <div className="container-padding">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
-                  Tuân thủ tiêu chuẩn quốc tế
-                </h2>
-                <p className="text-xl text-gray-600">
-                  Cam kết đáp ứng các tiêu chuẩn cao nhất trong ngành
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {tieuchuan.map((standard, index) => (
-                  <div key={index} className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${standard.color} rounded-2xl flex items-center justify-center text-3xl mb-4 mx-auto`}>
-                      {standard.icon}
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 text-center mb-2">
-                      {standard.title}
-                    </h3>
-                    <p className="text-gray-600 text-center text-sm leading-relaxed">
-                      {standard.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+       
 
         {/* Quality Assurance Process */}
         <section className="section-padding bg-gradient-to-br from-blue-50 to-indigo-100">
