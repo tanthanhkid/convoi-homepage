@@ -79,8 +79,14 @@ export default function DoiNgu() {
                 {/* Ông Nguyễn Thiên Bảo */}
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      NB
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-blue-500">
+                      <Image
+                        src="/avt/NGUYEN THIEN BẢO.jpg"
+                        alt="Ông Nguyễn Thiên Bảo"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Ông NGUYỄN THIÊN BẢO</h3>
@@ -147,8 +153,14 @@ export default function DoiNgu() {
                 {/* Ông Phạm Xuân Thanh */}
                 <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      PT
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-green-500">
+                      <Image
+                        src="/avt/pham xuan thanh.jpg"
+                        alt="Ông Phạm Xuân Thanh"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Ông PHẠM XUÂN THANH</h3>
@@ -193,8 +205,14 @@ export default function DoiNgu() {
                 {/* Huỳnh Minh Băng Nga */}
                 <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      HN
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-purple-500">
+                      <Image
+                        src="/avt/MS.-HUYNH-MINH-BANG-NGA-727x1024.jpg"
+                        alt="Huỳnh Minh Băng Nga"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">HUỲNH MINH BĂNG NGA</h3>
@@ -241,8 +259,14 @@ export default function DoiNgu() {
                 {/* Cô Mi Tâm */}
                 <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                      MT
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-indigo-500">
+                      <Image
+                        src="/avt/le thị thanh tâm.png"
+                        alt="Cô Mi Tâm"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Cô MI TÂM</h3>

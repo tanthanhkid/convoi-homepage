@@ -100,7 +100,7 @@ export default function TamNhinSuMenh() {
     },
     {
       icon: "🌐",
-      title: "Xây dựng mạng lưới chia sẻ 50.000 nhà vệ sinh \"SẠCH, MIỄN PHÍ và Welcome to use\"",
+      title: "Xây dựng mạng lưới chia sẻ 10.000+ nhà vệ sinh \"SẠCH, MIỄN PHÍ và Welcome to use\"",
       color: "from-orange-500 to-red-500"
     }
   ];

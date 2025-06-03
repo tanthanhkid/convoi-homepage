@@ -258,7 +258,7 @@ export default function GiaTriCongDong() {
                     <div className="w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-lg z-10"></div>
                     <div className="w-1/2 pl-8">
                       <div className="bg-white rounded-xl p-6 shadow-lg">
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">2024-2025</h3>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">2024-2029</h3>
                         <p className="text-gray-600">Mở rộng ra toàn quốc, hỗ trợ 6M học sinh</p>
                       </div>
                     </div>
@@ -268,7 +268,7 @@ export default function GiaTriCongDong() {
                     <div className="w-1/2 pr-8 text-right">
                       <div className="bg-white rounded-xl p-6 shadow-lg">
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Tương lai</h3>
-                        <p className="text-gray-600">Mạng lưới 50K nhà vệ sinh sạch toàn quốc</p>
+                        <p className="text-gray-600">Mạng lưới 10K+ nhà vệ sinh sạch toàn quốc</p>
                       </div>
                     </div>
                     <div className="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10"></div>
