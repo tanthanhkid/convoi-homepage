@@ -66,8 +66,17 @@ export default function Tang3Gio() {
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Quay lại trang Trường Sạch
+                Quay lại Chương trình Trường Sạch
               </LoadingLink>
+            </div>
+
+            {/* Program Type Badge */}
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center bg-yellow-400 text-yellow-900 rounded-full px-6 py-3 font-bold text-lg">
+                <span className="mr-2">⭐</span>
+                Chương trình trải nghiệm
+                <span className="ml-2">⭐</span>
+              </div>
             </div>
 
             <div className="text-center mb-12">
@@ -360,6 +369,78 @@ export default function Tang3Gio() {
                   <span className="text-white/80 text-sm">
                     🔒 Thông tin của bạn được bảo mật tuyệt đối
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Next Steps Section */}
+        <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="mb-8">
+                <div className="inline-flex items-center bg-blue-600 text-white rounded-full px-6 py-3 mb-6">
+                  <span className="text-xl mr-2">🚀</span>
+                  <span className="font-semibold">Bước tiếp theo</span>
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  Sau khi trải nghiệm, tham gia chương trình chính thức
+                </h2>
+                <p className="text-xl text-gray-700 mb-8">
+                  Nếu hài lòng với dịch vụ, trường học có thể đăng ký tham gia chương trình TRƯỜNG SẠCH chính thức 
+                  để được hỗ trợ dài hạn
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <div className="text-4xl mb-4">🎁</div>
+                  <h3 className="text-xl font-bold text-red-600 mb-3">Trải nghiệm miễn phí</h3>
+                  <ul className="text-left space-y-2 text-gray-600 text-sm">
+                    <li>✓ Miễn phí 3 giờ làm sạch</li>
+                    <li>✓ Không cam kết dài hạn</li>
+                    <li>✓ Đánh giá chất lượng dịch vụ</li>
+                    <li>✓ Trải nghiệm công nghệ BRT-3</li>
+                  </ul>
+                  <div className="mt-4 text-sm text-red-600 font-medium">
+                    👆 Bạn đang ở đây
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-green-200">
+                  <div className="text-4xl mb-4">🏫</div>
+                  <h3 className="text-xl font-bold text-green-600 mb-3">Chương trình chính thức</h3>
+                  <ul className="text-left space-y-2 text-gray-600 text-sm">
+                    <li>✓ Hỗ trợ dài hạn định kỳ</li>
+                    <li>✓ Quy trình làm sạch chuyên nghiệp</li>
+                    <li>✓ Giảm chi phí vệ sinh cho trường</li>
+                    <li>✓ Môi trường học tập sạch sẽ</li>
+                  </ul>
+                  <div className="mt-4">
+                    <LoadingLink 
+                      href="/truong-sach#dang-ky-form"
+                      className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300"
+                    >
+                      <span className="mr-2">📝</span>
+                      Tìm hiểu thêm
+                      <span className="ml-2">→</span>
+                    </LoadingLink>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-6">
+                <div className="flex items-start">
+                  <div className="text-2xl mr-3">💡</div>
+                  <div className="text-left">
+                    <h4 className="font-bold text-yellow-800 mb-2">Lưu ý quan trọng</h4>
+                    <p className="text-yellow-700 text-sm">
+                      Chương trình <strong>"Tặng 3 giờ"</strong> là dịch vụ trải nghiệm miễn phí để các trường học 
+                      đánh giá chất lượng trước khi quyết định tham gia chương trình TRƯỜNG SẠCH chính thức. 
+                      Đây không phải là chương trình hỗ trợ dài hạn.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

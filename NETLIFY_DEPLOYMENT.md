@@ -201,6 +201,8 @@ Headers được cấu hình trong `netlify.toml`:
 - **Static Export**: Next.js được cấu hình cho static + serverless functions
 - **Social Links**: Chỉ hiển thị Zalo OA (https://zalo.me/3105382268215205151) trong Footer và trang Liên hệ
 - **Zalo Icon**: Sử dụng file PNG `/Icon_of_Zalo.svg.png` thay vì SVG icon
+- **UI/UX Flow**: Tái cấu trúc trang truong-sach để dẫn dắt user hiểu "Tặng 3 giờ" là trải nghiệm của chương trình chính thức
+- **Call-to-Action**: Cải thiện hierarchy giữa trải nghiệm miễn phí và đăng ký chương trình chính thức
 
 ---
 

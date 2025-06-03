@@ -111,38 +111,101 @@ export default function TruongSach() {
                 Chương trình <span className="text-green-700">TRƯỜNG SẠCH</span>
               </h1>
               
-              {/* Call to Action Button */}
-              <div className="mb-8">
-                <LoadingLink 
-                  href="/truong-sach/tang-3-gio"
-                  className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                  <span className="mr-2">🎁</span>
-                  Tặng 3 giờ
-                  <span className="ml-2">→</span>
-                </LoadingLink>
-                <p className="text-sm text-gray-600 mt-3">
-                  Miễn phí 3 giờ làm sạch nhà vệ sinh cho các trường tại TP-HCM
-                </p>
-              </div>
-              
-              {/* <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-4">
                 "Tôi muốn có nhà vệ sinh sạch để học sinh sử dụng khi đến trường"
               </p>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
                 Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường
-              </p> */}
+              </p>
+
+              {/* Action Cards */}
+              <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                {/* Trải nghiệm miễn phí */}
+                <div className="bg-gradient-to-br from-red-50 to-pink-50 border-2 border-red-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">🎁</div>
+                    <h3 className="text-xl font-bold text-red-700 mb-2">Trải nghiệm miễn phí</h3>
+                    <p className="text-gray-600 mb-4 text-sm">
+                      Miễn phí 3 giờ làm sạch nhà vệ sinh cho các trường tại TP.HCM. 
+                      <br />
+                      <strong className="text-red-600">Trải nghiệm trước khi tham gia chương trình chính thức</strong>
+                    </p>
+                    <LoadingLink 
+                      href="/truong-sach/tang-3-gio"
+                      className="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                    >
+                      <span className="mr-2">🎁</span>
+                      Đăng ký trải nghiệm
+                      <span className="ml-2">→</span>
+                    </LoadingLink>
+                  </div>
+                </div>
+
+                {/* Tham gia chính thức */}
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">🏫</div>
+                    <h3 className="text-xl font-bold text-green-700 mb-2">Tham gia chương trình</h3>
+                    <p className="text-gray-600 mb-4 text-sm">
+                      Đăng ký chính thức để trường học được hỗ trợ dài hạn với công nghệ BRT-3 
+                      và quy trình làm sạch chuyên nghiệp
+                    </p>
+                    <a
+                      href="#dang-ky-form"
+                      className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                    >
+                      <span className="mr-2">📝</span>
+                      Đăng ký chương trình
+                      <span className="ml-2">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="grid lg:grid-cols-2 gap-12 items-start" id="dang-ky-form">
               <div>
                 <div className="mb-12">
+                  <div className="inline-flex items-center bg-green-100 text-green-800 rounded-full px-4 py-2 mb-4">
+                    <span className="mr-2">🏫</span>
+                    <span className="font-semibold">Chương trình chính thức</span>
+                  </div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
                     Đăng ký trường học tham gia chương trình
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 mb-6">
                     Hãy để lại thông tin trường học của bạn, chúng tôi sẽ liên hệ và hỗ trợ trong thời gian sớm nhất.
                   </p>
+                  
+                  {/* Benefits */}
+                  <div className="bg-green-50 rounded-lg p-4 mb-6">
+                    <h4 className="font-semibold text-green-900 mb-3">Lợi ích khi tham gia:</h4>
+                    <ul className="space-y-2 text-sm text-green-800">
+                      <li className="flex items-center">
+                        <span className="text-green-600 mr-2">✓</span>
+                        Hỗ trợ dài hạn với công nghệ BRT-3
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-green-600 mr-2">✓</span>
+                        Quy trình làm sạch chuyên nghiệp
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-green-600 mr-2">✓</span>
+                        Môi trường học tập sạch sẽ và an toàn
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-green-600 mr-2">✓</span>
+                        Giảm chi phí vệ sinh cho trường học
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Call to trial */}
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p className="text-sm text-red-700">
+                      💡 <strong>Gợi ý:</strong> Chưa chắc chắn? Hãy <LoadingLink href="/truong-sach/tang-3-gio" className="text-red-600 underline font-medium">trải nghiệm miễn phí 3 giờ</LoadingLink> trước khi đăng ký chương trình chính thức.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="bg-white rounded-xl shadow-lg p-8">
