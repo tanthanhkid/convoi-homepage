@@ -41,7 +41,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">Về Con Voi</Link></li>
               <li><Link href="/truong-sach" className="text-gray-300 hover:text-white transition-colors">Chương trình Trường Sạch</Link></li>
-              <li><Link href="/san-pham" className="text-gray-300 hover:text-white transition-colors">Sản phẩm</Link></li>
+              {/* <li><Link href="/san-pham" className="text-gray-300 hover:text-white transition-colors">Sản phẩm</Link></li> */}
               <li><Link href="/happy-market" className="text-gray-300 hover:text-white transition-colors">Happy Market</Link></li>
               <li><Link href="/lien-he" className="text-gray-300 hover:text-white transition-colors">Liên hệ</Link></li>
             </ul>
