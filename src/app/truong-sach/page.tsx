@@ -119,7 +119,7 @@ export default function TruongSach() {
                 "Tôi muốn có nhà vệ sinh sạch để học sinh sử dụng khi đến trường"
               </p>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-                Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường
+              Kết nối các nguồn lực xã hội giúp trường học có nhà vệ sinh sạch để học sinh sử dụng khi đến trường
               </p>
 
               {/* Action Cards */}

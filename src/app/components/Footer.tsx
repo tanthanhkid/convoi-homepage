@@ -19,7 +19,7 @@ const Footer = () => {
               <span className="ml-3 text-xl font-bold">DOANH NGHIỆP XÃ HỘI CON VOI</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường. 
+              Kết nối các nguồn lực xã hội giúp trường học có nhà vệ sinh sạch để học sinh sử dụng khi đến trường. 
               Chúng tôi cam kết mang đến môi trường giáo dục an toàn và sạch sẽ cho tất cả học sinh Việt Nam.
             </p>
             <div className="flex space-x-4">

@@ -61,7 +61,7 @@ export default function LienHe() {
               Liên hệ với <span className="text-green-700">DOANH NGHIỆP XÃ HỘI CON VOI</span>
             </h1>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto">
-              Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường. 
+              Kết nối các nguồn lực xã hội giúp trường học có nhà vệ sinh sạch để học sinh sử dụng khi đến trường. 
               Chúng tôi cam kết mang đến môi trường giáo dục an toàn và sạch sẽ cho tất cả học sinh Việt Nam.
             </p>
           </div>

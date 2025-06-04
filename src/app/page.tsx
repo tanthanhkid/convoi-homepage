@@ -29,7 +29,7 @@ export default function Home() {
                 "Tôi muốn có nhà vệ sinh sạch để học sinh sử dụng khi đến trường"
               </p>
               <p className="text-lg mb-8 text-green-100">
-                Kết nối các nguồn lực xã hội để học sinh có nhà vệ sinh sạch để sử dụng khi đến trường
+              Kết nối các nguồn lực xã hội giúp trường học có nhà vệ sinh sạch để học sinh sử dụng khi đến trường
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <LoadingLink href="/truong-sach" className="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center">
