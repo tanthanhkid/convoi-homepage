@@ -201,7 +201,7 @@ export default function DoiNgu() {
                 </p>
               </div>
 
-              <div className="grid lg:grid-cols-2 gap-8">
+              <div className="grid lg:grid-cols-3 gap-8">
                 {/* Huỳnh Minh Băng Nga */}
                 <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
@@ -215,8 +215,8 @@ export default function DoiNgu() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Bà HUỲNH MINH BĂNG NGA</h3>
-                      <p className="text-purple-600 font-semibold">Chuyên gia Kinh doanh & Marketing</p>
+                      <h3 className="text-xl font-bold text-gray-900">Bà HUỲNH MINH BĂNG NGA</h3>
+                      <p className="text-purple-600 font-semibold text-sm">Chuyên gia Kinh doanh & Marketing</p>
                     </div>
                   </div>
                   <div className="mb-4">
@@ -225,7 +225,7 @@ export default function DoiNgu() {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-3">
                       <div className="space-y-2">
                         <h4 className="font-semibold text-gray-800 text-sm">🏢 Hệ thống & Phân phối</h4>
                         <p className="text-gray-600 text-sm">
@@ -238,8 +238,6 @@ export default function DoiNgu() {
                           Đội ngũ chăm sóc khách hàng và hoạt động tiếp thị
                         </p>
                       </div>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <h4 className="font-semibold text-gray-800 text-sm">📊 Phân tích thị trường</h4>
                         <p className="text-gray-600 text-sm">
@@ -269,8 +267,8 @@ export default function DoiNgu() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Bà LÊ THỊ THANH TÂM</h3>
-                      <p className="text-indigo-600 font-semibold">Luật sư - Chuyên gia Tài sản Trí tuệ</p>
+                      <h3 className="text-xl font-bold text-gray-900">Bà LÊ THỊ THANH TÂM</h3>
+                      <p className="text-indigo-600 font-semibold text-sm">Luật sư - Chuyên gia Tài sản Trí tuệ</p>
                     </div>
                   </div>
                   <div className="space-y-4">
@@ -290,6 +288,45 @@ export default function DoiNgu() {
                       <span className="text-indigo-500 text-lg mr-3 mt-1">💡</span>
                       <p className="text-gray-700">
                         Chuyên gia trong lĩnh vực tài sản trí tuệ
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ông Trần Quý */}
+                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-emerald-500">
+                      <Image
+                        src="/avt/tran-quy.jpeg"
+                        alt="Ông Trần Quý"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">Ông TRẦN QUÝ</h3>
+                      <p className="text-emerald-600 font-semibold text-sm">Tiến sĩ - Viện trưởng</p>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <span className="text-emerald-500 text-lg mr-3 mt-1">🎓</span>
+                      <p className="text-gray-700">
+                        Tiến sĩ với chuyên môn sâu về kinh tế số
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-emerald-500 text-lg mr-3 mt-1">🏛️</span>
+                      <p className="text-gray-700">
+                        Viện trưởng Viện Phát Triển Kinh Tế Số Việt Nam
+                      </p>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-emerald-500 text-lg mr-3 mt-1">💡</span>
+                      <p className="text-gray-700">
+                        Chuyên gia định hướng chuyển đổi số và phát triển bền vững
                       </p>
                     </div>
                   </div>
