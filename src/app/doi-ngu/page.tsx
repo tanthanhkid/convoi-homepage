@@ -215,7 +215,7 @@ export default function DoiNgu() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">HUỲNH MINH BĂNG NGA</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">Bà HUỲNH MINH BĂNG NGA</h3>
                       <p className="text-purple-600 font-semibold">Chuyên gia Kinh doanh & Marketing</p>
                     </div>
                   </div>
@@ -269,7 +269,7 @@ export default function DoiNgu() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Lê Thị Thanh Tâm</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">Bà LÊ THỊ THANH TÂM</h3>
                       <p className="text-indigo-600 font-semibold">Luật sư - Chuyên gia Tài sản Trí tuệ</p>
                     </div>
                   </div>
