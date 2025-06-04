@@ -3,7 +3,7 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useState, useMemo } from 'react';
 
 // Import brands data
 import brandsData from '../../../data/brands.json';
@@ -20,34 +20,61 @@ const groupBrandsByCategory = () => {
   return grouped;
 };
 
-// Brand Card Component
-const BrandCard = ({ brand }: { brand: any }) => (
-  <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
-    <div className="flex items-center space-x-4">
-      <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-        <img 
-          src={brand.image_url} 
-          alt={brand.name}
-          className="w-full h-full object-contain"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/placeholder-brand.svg';
-          }}
-        />
+// Featured categories to show initially
+const FEATURED_CATEGORIES = [
+  "Thương hiệu nổi bật",
+  "Cafe & bánh", 
+  "Nhà Hàng",
+  "Siêu thị & Mua sắm",
+  "Thời trang & Phụ kiện"
+];
+
+const BRANDS_PER_CATEGORY = 6; // Số brands hiển thị ban đầu mỗi category
+
+// Brand Card Component với loading state
+const BrandCard = ({ brand, isLoading = false }: { brand?: any, isLoading?: boolean }) => {
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 animate-pulse">
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 bg-gray-200 rounded-lg"></div>
+          <div className="flex-1">
+            <div className="h-5 bg-gray-200 rounded mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-20"></div>
+          </div>
+        </div>
       </div>
-      <div className="flex-1">
-        <h3 className="font-semibold text-gray-900 text-lg">{brand.name}</h3>
-        <span className="inline-block bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full mt-2">
-          {brand.category}
-        </span>
-      </div>
-      <div className="text-orange-600">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-        </svg>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 group">
+      <div className="flex items-center space-x-4">
+        <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+          <img 
+            src={brand.image_url} 
+            alt={brand.name}
+            className="w-full h-full object-contain"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/placeholder-brand.svg';
+            }}
+          />
+        </div>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-lg group-hover:text-orange-600 transition-colors">{brand.name}</h3>
+          <span className="inline-block bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full mt-2">
+            {brand.category}
+          </span>
+        </div>
+        <div className="text-orange-600 group-hover:translate-x-1 transition-transform">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+          </svg>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Stats Component
 const StatsSection = () => {
@@ -75,32 +102,152 @@ const StatsSection = () => {
   );
 };
 
-// Partners Table Component
+// Category Section Component
+const CategorySection = ({ category, brands, isExpanded, onToggle }: {
+  category: string;
+  brands: any[];
+  isExpanded: boolean;
+  onToggle: () => void;
+}) => {
+  const displayedBrands = isExpanded ? brands : brands.slice(0, BRANDS_PER_CATEGORY);
+  const hasMore = brands.length > BRANDS_PER_CATEGORY;
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-2xl font-bold text-gray-900 flex items-center">
+          <div className="w-3 h-3 bg-orange-500 rounded-full mr-3"></div>
+          {category}
+        </h3>
+        <div className="flex items-center space-x-3">
+          <span className="bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1 rounded-full">
+            {brands.length} thương hiệu
+          </span>
+          {hasMore && (
+            <button
+              onClick={onToggle}
+              className="text-orange-600 hover:text-orange-700 text-sm font-medium flex items-center space-x-1 transition-colors"
+            >
+              <span>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</span>
+              <svg 
+                className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+                fill="currentColor" 
+                viewBox="0 0 20 20"
+              >
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {displayedBrands.map((brand: any, index: number) => (
+          <BrandCard key={`${category}-${index}`} brand={brand} />
+        ))}
+      </div>
+
+      {!isExpanded && hasMore && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={onToggle}
+            className="inline-flex items-center bg-orange-100 hover:bg-orange-200 text-orange-700 font-medium px-6 py-3 rounded-lg transition-all duration-200 hover:shadow-md"
+          >
+            <span>Xem thêm {brands.length - BRANDS_PER_CATEGORY} thương hiệu</span>
+            <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Main Partners Table Component
 const PartnersTable = () => {
-  const groupedBrands = groupBrandsByCategory();
-  const categories = Object.keys(groupedBrands).sort();
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
+  const groupedBrands = useMemo(() => groupBrandsByCategory(), []);
+  
+  const categoriesToShow = showAllCategories 
+    ? Object.keys(groupedBrands).sort()
+    : FEATURED_CATEGORIES.filter(cat => groupedBrands[cat]);
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(category)) {
+        newSet.delete(category);
+      } else {
+        newSet.add(category);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <div className="space-y-8">
-      {categories.map((category) => (
-        <div key={category} className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 flex items-center">
-              <div className="w-3 h-3 bg-orange-500 rounded-full mr-3"></div>
-              {category}
-            </h3>
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1 rounded-full">
-              {groupedBrands[category].length} thương hiệu
-            </span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {groupedBrands[category].map((brand: any, index: number) => (
-              <BrandCard key={`${category}-${index}`} brand={brand} />
-            ))}
-          </div>
-        </div>
+      {categoriesToShow.map((category) => (
+        <CategorySection
+          key={category}
+          category={category}
+          brands={groupedBrands[category]}
+          isExpanded={expandedCategories.has(category)}
+          onToggle={() => toggleCategory(category)}
+        />
       ))}
+
+      {!showAllCategories && (
+        <div className="text-center pt-8">
+          <button
+            onClick={() => setShowAllCategories(true)}
+            className="inline-flex items-center bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            <span>Khám phá tất cả danh mục ({Object.keys(groupedBrands).length - FEATURED_CATEGORIES.length} danh mục khác)</span>
+            <svg className="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Featured Brands Showcase
+const FeaturedBrands = () => {
+  const featuredBrands = useMemo(() => 
+    brandsData.filter(brand => brand.category === "Thương hiệu nổi bật").slice(0, 8)
+  , []);
+
+  return (
+    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 mb-12">
+      <div className="text-center mb-8">
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">Thương hiệu nổi bật</h3>
+        <p className="text-gray-600">Những đối tác hàng đầu của Happy Market</p>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {featuredBrands.map((brand, index) => (
+          <div key={index} className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 text-center group">
+            <div className="w-16 h-16 mx-auto mb-3 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform">
+              <img 
+                src={brand.image_url} 
+                alt={brand.name}
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/placeholder-brand.svg';
+                }}
+              />
+            </div>
+            <h4 className="font-semibold text-gray-900 text-sm group-hover:text-orange-600 transition-colors">
+              {brand.name}
+            </h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
@@ -154,10 +301,23 @@ export default function HappyMarket() {
           </div>
 
           <StatsSection />
+          <FeaturedBrands />
           
           <Suspense fallback={
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+            <div className="space-y-8">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
+                    <div className="h-6 bg-gray-200 rounded w-24 animate-pulse"></div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {Array.from({ length: 6 }).map((_, j) => (
+                      <BrandCard key={j} isLoading={true} />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           }>
             <PartnersTable />
@@ -165,7 +325,7 @@ export default function HappyMarket() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works - Di chuyển lên trên Partners để tăng engagement */}
       <section className="section-padding bg-white">
         <div className="container-padding">
           <div className="text-center mb-16">
@@ -261,8 +421,8 @@ export default function HappyMarket() {
               <span>Mua sắm trong hạnh phúc</span>
               <svg className="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
+                </svg>
+              </a>
           </div>
         </div>
       </section>
