@@ -298,7 +298,7 @@ export default function DoiNgu() {
                   <div className="flex items-center mb-6">
                     <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-emerald-500">
                       <Image
-                        src="/avt/tran-quy.jpeg"
+                        src="/avt/tran-quy.jpg"
                         alt="Ông Trần Quý"
                         width={64}
                         height={64}
