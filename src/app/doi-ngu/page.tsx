@@ -269,7 +269,7 @@ export default function DoiNgu() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Cô MI TÂM</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">Lê Thị Thanh Tâm</h3>
                       <p className="text-indigo-600 font-semibold">Luật sư - Chuyên gia Tài sản Trí tuệ</p>
                     </div>
                   </div>
