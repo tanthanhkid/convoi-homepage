@@ -256,13 +256,13 @@ export default function DoiNgu() {
                   </div>
                 </div>
 
-                {/* Cô Mi Tâm */}
+                {/* Cô Lê Thị Thanh Tâm */}
                 <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-6">
                     <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-3 border-indigo-500">
                       <Image
                         src="/avt/le thị thanh tâm.png"
-                        alt="Cô Mi Tâm"
+                        alt="Lê Thị Thanh Tâm"
                         width={64}
                         height={64}
                         className="w-full h-full object-cover"
